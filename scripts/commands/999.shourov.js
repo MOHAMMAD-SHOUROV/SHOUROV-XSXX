@@ -17,7 +17,6 @@ module.exports = {
     const { threadID, messageID, body } = event;
     if (!body) return;
 
-    // যেহেতু ইমোজি, তাই includes() ব্যবহার করা ভালো
     if (
       body.startsWith("😘") ||
       body.startsWith("🥰") ||
@@ -25,7 +24,7 @@ module.exports = {
       body.startsWith("🤩")
     ) {
       try {
-        const audioPath = __dirname + "/Shourov.mp3";
+        const audioPath = __dirname + "/Shourov.mp3"; // ✅ এক ফোল্ডারেই আছে
 
         const msg = {
           body: "এ্ঁত্ঁ ভা্ঁলো্ঁবা্ঁসা্ঁ ক্ঁই্ঁ পা্ঁও্ঁ আ্ঁমা্ঁর্ঁ ব্ঁস্ঁ সৌ্ঁর্ঁভ্ঁ কে্ঁ এ্ঁক্ঁটুঁ দে্ঁও্ঁ 🌺",
@@ -34,7 +33,6 @@ module.exports = {
 
         api.sendMessage(msg, threadID, messageID);
         api.setMessageReaction("😁", messageID, (err) => {}, true);
-
       } catch (error) {
         console.error("অডিও পাঠাতে সমস্যা:", error.message);
       }
@@ -42,6 +40,6 @@ module.exports = {
   },
 
   start() {
-    // Optional start code
+    // Optional
   },
 };
