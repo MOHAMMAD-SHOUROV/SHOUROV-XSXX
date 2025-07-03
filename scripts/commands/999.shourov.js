@@ -17,7 +17,6 @@ module.exports = {
     const { threadID, messageID, body } = event;
     if (!body) return;
 
-    // শুধু নির্দিষ্ট ইমোজিগুলোর জন্য
     if (
       body.startsWith("😘") ||
       body.startsWith("🥰") ||
@@ -27,9 +26,8 @@ module.exports = {
       try {
         const audioPath = __dirname + "/Shourov.mp3";
 
-        // চেক করো ফাইল আসলেই আছে কিনা
         if (!fs.existsSync(audioPath)) {
-          return api.sendMessage("❌ অডিও ফাইল খুঁজে পাওয়া যায়নি!", threadID, messageID);
+          return api.sendMessage("❌ অডিও ফাইল পাওয়া যায়নি!", threadID, messageID);
         }
 
         const msg = {
@@ -37,19 +35,13 @@ module.exports = {
           attachment: fs.createReadStream(audioPath),
         };
 
-        // মেসেজ পাঠাও
         api.sendMessage(msg, threadID, messageID);
-
-        // রিঅ্যাকশন দাও
-        api.setMessageReaction("😁", messageID, (err) => {}, true);
-
+        api.setMessageReaction("😁", messageID, () => {}, true);
       } catch (error) {
         console.error("⚠️ অডিও পাঠাতে সমস্যা:", error.message);
       }
     }
   },
 
-  start() {
-    // প্রয়োজন হলে start এ কিছু যুক্ত করতে পারো
-  },
+  start() {},
 };
