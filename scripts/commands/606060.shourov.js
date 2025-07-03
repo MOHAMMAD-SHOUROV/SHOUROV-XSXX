@@ -1,9 +1,10 @@
-const fs = require('fs-extra');
-const axios = require('axios');
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
 
 module.exports = {
   config: {
-    name: "Fahim11",
+    name: "Shourov11",
     version: "1.0.1",
     prefix: false,
     permssion: 0,
@@ -18,41 +19,40 @@ module.exports = {
     const { threadID, messageID, body } = event;
     if (!body) return;
 
-    if (body.toLowerCase().startsWith("call a aso") || body.startsWith("😡")) {
-      const url = 'https://i.imgur.com/hj4iPpe.mp4';
-      const path = __dirname + "/cache/fahim11.mp4";
+    const msgBody = body.toLowerCase();
 
+    if (msgBody.startsWith("call a aso") || msgBody.startsWith("😡")) {
       try {
-        // যদি ফাইল আগে থেকে না থাকে, তখন ডাউনলোড করবে
-        if (!fs.existsSync(path)) {
+        const cachePath = path.resolve(__dirname, "cache", "shourov11.mp4");
+
+        // ফাইল আগে থেকে আছে কিনা চেক করো, না থাকলে ডাউনলোড করো
+        if (!fs.existsSync(cachePath)) {
           const response = await axios({
-            url,
-            method: "GET",
-            responseType: "stream",
+            url: 'https://i.imgur.com/hj4iPpe.mp4',
+            method: 'GET',
+            responseType: 'stream'
           });
           await new Promise((resolve, reject) => {
-            const stream = fs.createWriteStream(path);
-            response.data.pipe(stream);
-            stream.on("finish", resolve);
-            stream.on("error", reject);
+            const writeStream = fs.createWriteStream(cachePath);
+            response.data.pipe(writeStream);
+            writeStream.on("finish", resolve);
+            writeStream.on("error", reject);
           });
         }
 
-        // তারপর ফাইল পাঠাবে
-        api.sendMessage(
-          {
-            body: "Md Fahim Islam",
-            attachment: fs.createReadStream(path),
-          },
-          threadID,
-          messageID
-        );
+        // লোকালি সেভ করা ফাইল থেকে পাঠাও
+        await api.sendMessage({
+          body: "𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯",
+          attachment: fs.createReadStream(cachePath)
+        }, threadID, messageID);
+
         api.setMessageReaction("🤣", messageID, () => {}, true);
       } catch (err) {
-        console.error(err);
-        api.sendMessage("❌ ভিডিও ডাউনলোডে সমস্যা হয়েছে!", threadID, messageID);
+        console.error("Failed to fetch media:", err);
+        api.sendMessage("❌ ভিডিও আনতে সমস্যা হয়েছে!", threadID, messageID);
       }
     }
   },
-  start: function() {},
+
+  start: function() {}
 };
