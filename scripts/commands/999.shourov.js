@@ -21,7 +21,7 @@ module.exports = {
     console.log("Current __dirname:", __dirname);
     console.log("Current working directory:", process.cwd());
 
-    const audioPath = path.resolve(__dirname, "../cache/Shourov.mp3");
+    const audioPath = path.resolve(__dirname+ Shourov.mp3');
     console.log("Resolved audio path:", audioPath);
 
     if (!fs.existsSync(audioPath)) {
