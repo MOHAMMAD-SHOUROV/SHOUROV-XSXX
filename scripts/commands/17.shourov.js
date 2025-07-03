@@ -1,29 +1,25 @@
-/** I am doing this coding with a lot of difficulty, please don't post it yourself¯\_(ツ)_/¯ **/
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+
 module.exports.config = {
-  name: "baby", 
-  version: "1.0.0", 
+  name: "baby",
+  version: "1.0.0",
   permission: 0,
   credits: "farhan",
-  description: "Random sad video",
+  description: "Random baby video",
   prefix: true,
-  category: "Media", 
-  usages: "video", 
+  category: "Media",
+  usages: "video",
   cooldowns: 5,
   dependencies: {
-    "request":"",
-    "fs-extra":"",
-    "axios":""
+    "axios": "",
+    "fs-extra": ""
   }
 };
 
-module.exports.run = async({api,event,args,client,Users,Threads,__GLOBAL,Currencies}) => {
-const axios = global.nodemodule["axios"];
-const request = global.nodemodule["request"];
-const fs = global.nodemodule["fs-extra"];
-   var hi = ["-baby-𝐤𝐢𝐧𝐠_𝐬𝐡𝐨𝐮𝐫𝐨𝐯--"];
-  var know = hi[Math.floor(Math.random() * hi.length)];
-  var link = [
-
+module.exports.run = async ({ api, event }) => {
+  const videos = [
     "https://drive.google.com/uc?id=1ow-ovOSIJakvKK9MznNFE00hFXalVV49",
     "https://drive.google.com/uc?id=1p9bO4FUVY2MblvNBBloW9m127oQfhjEv",
     "https://drive.google.com/uc?id=1pTalyTBu6xEHUxYMAWq6ym7TOE7qe71-",
@@ -41,7 +37,44 @@ const fs = global.nodemodule["fs-extra"];
     "https://drive.google.com/uc?id=1pp7nTCuRlGEy4-CK3k4p4LPZkxA8xVWE",
     "https://drive.google.com/uc?id=1qIsNO4cSriiE_llkFCY6YGTqk-wEMsd0",
     "https://drive.google.com/uc?id=1ox5jQFrcFtlBkZQhnqEB8aDlAaxS2hGh",
-];
-     var callback = () => api.sendMessage({body:`「 ${know} 」`,attachment: fs.createReadStream(__dirname + "/cache/15.mp4")}, event.threadID, () => fs.unlinkSync(__dirname + "/cache/15.mp4"));    
-      return request(encodeURI(link[Math.floor(Math.random() * link.length)])).pipe(fs.createWriteStream(__dirname+"/cache/15.mp4")).on("close",() => callback());
-   };
+  ];
+
+  const quotes = [
+    "-baby-𝐤𝐢𝐧𝐠_𝐬𝐡𝐨𝐮𝐫𝐨𝐯--"
+  ];
+
+  const selectedVideo = videos[Math.floor(Math.random() * videos.length)];
+  const selectedQuote = quotes[Math.floor(Math.random() * quotes.length)];
+  const filePath = path.join(__dirname, "cache", "baby.mp4");
+
+  try {
+    // Ensure cache dir exists
+    await fs.ensureDir(path.join(__dirname, "cache"));
+
+    // Download video
+    const res = await axios.get(selectedVideo, {
+      responseType: "stream",
+      headers: {
+        "User-Agent": "Mozilla/5.0"
+      }
+    });
+
+    const writer = fs.createWriteStream(filePath);
+    res.data.pipe(writer);
+
+    writer.on("finish", () => {
+      api.sendMessage({
+        body: `「 ${selectedQuote} 」`,
+        attachment: fs.createReadStream(filePath)
+      }, event.threadID, () => fs.unlinkSync(filePath));
+    });
+
+    writer.on("error", err => {
+      console.error("❌ ভিডিও ফাইল সংরক্ষণের সময় সমস্যা:", err);
+      api.sendMessage("❌ ভিডিও ফাইল সেভ করতে সমস্যা হয়েছে!", event.threadID);
+    });
+  } catch (err) {
+    console.error("❌ ভিডিও ডাউনলোড সমস্যা:", err.message);
+    api.sendMessage("❌ ভিডিও লোড করতে সমস্যা হয়েছে!", event.threadID);
+  }
+};
