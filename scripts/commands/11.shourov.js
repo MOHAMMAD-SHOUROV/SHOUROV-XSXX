@@ -1,30 +1,26 @@
-/** I am doing this coding with a lot of difficulty, please don't post it yourself¯\_(ツ)_/¯ **/
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+
 module.exports.config = {
-  name: "ss", 
-  version: "1.0.0", 
+  name: "ss",
+  version: "1.0.0",
   permission: 0,
   credits: "farhan",
   description: "Random sad video",
   prefix: true,
-  category: "Media", 
-  usages: "video", 
+  category: "Media",
+  usages: "video",
   cooldowns: 5,
   dependencies: {
-    "request":"",
-    "fs-extra":"",
-    "axios":""
+    "axios": "",
+    "fs-extra": ""
   }
 };
 
-module.exports.run = async({api,event,args,client,Users,Threads,__GLOBAL,Currencies}) => {
-const axios = global.nodemodule["axios"];
-const request = global.nodemodule["request"];
-const fs = global.nodemodule["fs-extra"];
-   var hi = ["--যারা ফুলকে ভালোবাসে তারা নিজেরাই এক একটা ফুল 💕🌸-𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯-"];
-  var know = hi[Math.floor(Math.random() * hi.length)];
-  var link = [
-
-  "https://drive.google.com/uc?id=13sAsW5wQ3qhNfAMuJBLJD6NQnw8mexou",
+module.exports.run = async ({ api, event }) => {
+  const videoLinks = [
+    "https://drive.google.com/uc?id=13sAsW5wQ3qhNfAMuJBLJD6NQnw8mexou",
     "https://drive.google.com/uc?id=136oqsV5ff-DhKScw4TRmv0iefQRvdEDc",
     "https://drive.google.com/uc?id=13Hbrq6Qrc5Pd2_PVB9XzMiHsx0lhLCPF",
     "https://drive.google.com/uc?id=13-KSN4yUN8TdVZm4OtVUs0qbVYefPB4F",
@@ -46,7 +42,48 @@ const fs = global.nodemodule["fs-extra"];
     "https://drive.google.com/uc?id=14MaSmAOGu88k3pb7VeWHvX9-3PoHoEOn",
     "https://drive.google.com/uc?id=14_6TY5WIGQ0hunYrJbNgavVEFRDsAgbj",
     "https://drive.google.com/uc?id=14MaSmAOGu88k3pb7VeWHvX9-3PoHoEOn",
-];
-     var callback = () => api.sendMessage({body:`「 ${know} 」`,attachment: fs.createReadStream(__dirname + "/cache/15.mp4")}, event.threadID, () => fs.unlinkSync(__dirname + "/cache/15.mp4"));    
-      return request(encodeURI(link[Math.floor(Math.random() * link.length)])).pipe(fs.createWriteStream(__dirname+"/cache/15.mp4")).on("close",() => callback());
-   };
+  ];
+
+  const quotes = [
+    "--যারা ফুলকে ভালোবাসে তারা নিজেরাই এক একটা ফুল 💕🌸-𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯-"
+  ];
+
+  const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+  const randomLink = videoLinks[Math.floor(Math.random() * videoLinks.length)];
+  const filePath = path.join(__dirname, "cache", "ss_video.mp4");
+
+  try {
+    // Ensure cache folder exists
+    await fs.ensureDir(path.join(__dirname, "cache"));
+
+    // Download video with axios
+    const res = await axios.get(randomLink, {
+      responseType: "stream",
+      headers: {
+        "User-Agent": "Mozilla/5.0"
+      }
+    });
+
+    const writer = fs.createWriteStream(filePath);
+    res.data.pipe(writer);
+
+    writer.on("finish", () => {
+      api.sendMessage(
+        {
+          body: `「 ${randomQuote} 」`,
+          attachment: fs.createReadStream(filePath)
+        },
+        event.threadID,
+        () => fs.unlinkSync(filePath)
+      );
+    });
+
+    writer.on("error", err => {
+      console.error("⛔ ভিডিও লিখতে সমস্যা:", err);
+      api.sendMessage("❌ ভিডিও সংরক্ষণে সমস্যা হয়েছে!", event.threadID);
+    });
+  } catch (err) {
+    console.error("⛔ ভিডিও ডাউনলোড সমস্যা:", err.message);
+    api.sendMessage("❌ ভিডিও লোড করতে সমস্যা হয়েছে!", event.threadID);
+  }
+};
