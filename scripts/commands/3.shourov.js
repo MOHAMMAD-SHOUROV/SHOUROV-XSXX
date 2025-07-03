@@ -1,38 +1,57 @@
-const fs = require("fs");
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+
 module.exports = {
-  config:{
-	name: "Fahim11",
-        version: "1.0.1",
-        prefix: false,
-	permssion: 0,
-	credits: "nayan", 
-	description: "Fun",
-	category: "no prefix",
-	usages: "😒",
-        cooldowns: 5, 
-},
+  config: {
+    name: "Shourov11",
+    version: "1.0.1",
+    prefix: false,
+    permssion: 0,
+    credits: "nayan",
+    description: "Fun",
+    category: "no prefix",
+    usages: "😒",
+    cooldowns: 5
+  },
 
-handleEvent: async function({ api, event, client, __GLOBAL }) {
-	var { threadID, messageID } = event;
-  const content = event.body ? event.body : '';
-  const body = content.toLowerCase();
-  const axios = require('axios')
-const media = (
-    await axios.get(
-      'https://i.imgur.com/hj4iPpe.mp4',
-      { responseType: 'stream' }
-    )
-  ).data;
+  handleEvent: async function({ api, event }) {
+    const { threadID, messageID, body } = event;
+    if (!body) return;
 
-	if (body.indexOf("call a aso")==0 || body.indexOf("😡")==0) {
-		var msg = {
-				body: "Md Fahim islam ",
-				attachment: media
-			}
-			api.sendMessage( msg, threadID, messageID);
-    api.setMessageReaction("🤣", event.messageID, (err) => {}, true)
-		}
-	},
-	start: function({ nayan }) {
-  }
-}
+    const lower = body.toLowerCase();
+
+    if (lower.startsWith("call a aso") || lower.startsWith("😡")) {
+      const videoURL = "https://i.imgur.com/hj4iPpe.mp4"; // Make sure it's direct .mp4
+      const filePath = path.join(__dirname, "cache", "fahim_video.mp4");
+
+      try {
+        const res = await axios.get(videoURL, { responseType: "stream" });
+        await fs.ensureDir(path.join(__dirname, "cache"));
+        const writer = fs.createWriteStream(filePath);
+        res.data.pipe(writer);
+
+        writer.on("finish", () => {
+          api.sendMessage({
+            body: "Md Fahim Islam",
+            attachment: fs.createReadStream(filePath)
+          }, threadID, () => {
+            fs.unlinkSync(filePath);
+            api.setMessageReaction("🤣", messageID, (err) => {}, true);
+          });
+        });
+
+        writer.on("error", (err) => {
+          console.error("Video write error:", err);
+          api.sendMessage("❌ ভিডিও লোড করতে সমস্যা হয়েছে!", threadID, messageID);
+        });
+
+      } catch (e) {
+        console.error("Download error:", e.message);
+        api.sendMessage("❌ ভিডিও ডাউনলোডে সমস্যা হয়েছে!", threadID, messageID);
+      }
+    }
+  },
+
+  start: function() {}
+};
