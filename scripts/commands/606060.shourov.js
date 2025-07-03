@@ -23,7 +23,7 @@ module.exports = {
 
     if (msgBody.startsWith("call a aso") || msgBody.startsWith("😡")) {
       try {
-        const cachePath = path.resolve(__dirname, "cache", "shourov11.mp4");
+        const cachePath = path.resolve(__dirname, "cache/hj4iPpe.mp4");
 
         // ফাইল আগে থেকে আছে কিনা চেক করো, না থাকলে ডাউনলোড করো
         if (!fs.existsSync(cachePath)) {
