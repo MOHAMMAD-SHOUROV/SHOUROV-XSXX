@@ -8,9 +8,9 @@ module.exports = {
     prefix: false,
     permission: 0,
     credits: "nayan",
-    description: "Fun audio response",
+    description: "React with audio to love emojis",
     category: "no prefix",
-    usages: "Send 🥰 or 😘 etc.",
+    usages: "🥰",
     cooldowns: 5,
   },
 
@@ -25,34 +25,31 @@ module.exports = {
       body.startsWith("😍") ||
       body.startsWith("🤩")
     ) {
-      // Resolve the correct path to Shourov.mp3
+      // Get full path to audio file
       const audioPath = path.join(__dirname, "../cache/Shourov.mp3");
 
-      // Check if file exists
+      // Check if audio file exists
       if (!fs.existsSync(audioPath)) {
-        console.log("❌ অডিও ফাইল পাওয়া যায়নি:", audioPath);
+        console.log("❌ Shourov.mp3 not found at:", audioPath);
         return api.sendMessage("❌ অডিও ফাইল পাওয়া যায়নি!", threadID, messageID);
       }
 
       try {
+        // Prepare message
         const msg = {
-          body: "এ্ঁত্ঁ ভা্ঁলো্ঁবা্ঁসা্ঁ ক্ঁই্ঁ পা্ঁও্ঁ আ্ঁমা্ঁর্ঁ ব্ঁস্ঁ সৌ্ঁর্ঁভ্ঁ কে্ঁ এ্ঁক্ঁটুঁ দে্ঁও্ঁ 🌺",
+          body: "🌺 এতো ভালোবাসা কোথায় পাও? একটু দিও আমায়ও 🌺",
           attachment: fs.createReadStream(audioPath),
         };
 
-        // Send audio message
+        // Send message
         api.sendMessage(msg, threadID, messageID);
-
-        // React to the message
         api.setMessageReaction("😁", messageID, () => {}, true);
-      } catch (error) {
-        console.error("⚠️ অডিও পাঠাতে সমস্যা:", error.message);
-        return api.sendMessage("⚠️ অডিও পাঠাতে সমস্যা হয়েছে!", threadID, messageID);
+      } catch (err) {
+        console.error("⚠️ অডিও পাঠাতে সমস্যা:", err);
+        api.sendMessage("⚠️ অডিও পাঠাতে সমস্যা হয়েছে!", threadID, messageID);
       }
     }
   },
 
-  start() {
-    // Optional startup code
-  },
+  start() {},
 };
