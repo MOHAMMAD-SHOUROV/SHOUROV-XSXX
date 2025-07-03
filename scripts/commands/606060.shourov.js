@@ -1,58 +1,56 @@
-const axios = require("axios");
 const fs = require("fs-extra");
+const axios = require("axios");
 const path = require("path");
 
 module.exports = {
   config: {
-    name: "Shourov11",
-    version: "1.0.1",
+    name: "testvideo",
+    version: "1.0.0",
+    permission: 0,
+    credits: "Shourov",
+    description: "Test video download",
+    category: "media",
     prefix: false,
-    permssion: 0,
-    credits: "nayan",
-    description: "Fun",
-    category: "no prefix",
-    usages: "😒",
-    cooldowns: 5,
+    usages: "",
+    cooldowns: 5
   },
 
-  handleEvent: async function({ api, event }) {
+  handleEvent: async function ({ api, event }) {
     const { threadID, messageID, body } = event;
     if (!body) return;
 
-    const msgBody = body.toLowerCase();
+    if (body.toLowerCase().startsWith("test video")) {
+      const filePath = path.join(__dirname, "cache/hj4iPpe.mp4");
 
-    if (msgBody.startsWith("call a aso") || msgBody.startsWith("😡")) {
       try {
-        const cachePath = path.resolve(__dirname, "cache/hj4iPpe.mp4");
+        // Ensure cache folder exists
+        if (!fs.existsSync(path.join(__dirname, "cache"))) {
+          fs.mkdirSync(path.join(__dirname, "cache"));
+        }
 
-        // ফাইল আগে থেকে আছে কিনা চেক করো, না থাকলে ডাউনলোড করো
-        if (!fs.existsSync(cachePath)) {
-          const response = await axios({
-            url: 'https://i.imgur.com/hj4iPpe.mp4',
-            method: 'GET',
-            responseType: 'stream'
-          });
+        // Download video if not already exists
+        if (!fs.existsSync(filePath)) {
+          const res = await axios.get("https://i.imgur.com/hj4iPpe.mp4", { responseType: "stream" });
           await new Promise((resolve, reject) => {
-            const writeStream = fs.createWriteStream(cachePath);
-            response.data.pipe(writeStream);
-            writeStream.on("finish", resolve);
-            writeStream.on("error", reject);
+            const stream = fs.createWriteStream(filePath);
+            res.data.pipe(stream);
+            stream.on("finish", resolve);
+            stream.on("error", reject);
           });
         }
 
-        // লোকালি সেভ করা ফাইল থেকে পাঠাও
-        await api.sendMessage({
-          body: "𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯",
-          attachment: fs.createReadStream(cachePath)
+        // Send video
+        api.sendMessage({
+          body: "✅ ভিডিও আসছে...",
+          attachment: fs.createReadStream(filePath)
         }, threadID, messageID);
 
-        api.setMessageReaction("🤣", messageID, () => {}, true);
       } catch (err) {
-        console.error("Failed to fetch media:", err);
-        api.sendMessage("❌ ভিডিও আনতে সমস্যা হয়েছে!", threadID, messageID);
+        console.error("❌ ভিডিও ডাউনলোডে সমস্যা:", err.message);
+        api.sendMessage("❌ ভিডিও ডাউনলোডে সমস্যা হয়েছে!", threadID, messageID);
       }
     }
   },
 
-  start: function() {}
+  start: function () {}
 };
