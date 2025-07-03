@@ -8,7 +8,6 @@ module.exports = {
     version: "1.0.0",
     permission: 0,
     credits: "Shourov",
-    description: "Send a local video",
     prefix: false,
     category: "media",
     usages: "",
@@ -27,18 +26,12 @@ module.exports = {
       const videoUrl = "https://i.imgur.com/hj4iPpe.mp4";
 
       try {
-        // ✅ Step 1: Make sure "cache/" folder exists
-        if (!fs.existsSync(cacheFolder)) {
-          fs.mkdirSync(cacheFolder);
-        }
+        // 🔧 Step 1: Ensure "cache/" folder exists
+        await fs.ensureDir(cacheFolder);
 
-        // ✅ Step 2: Download the video only if it's not already there
+        // 🔧 Step 2: Download the video if not exists
         if (!fs.existsSync(filePath)) {
-          const response = await axios({
-            url: videoUrl,
-            method: "GET",
-            responseType: "stream"
-          });
+          const response = await axios.get(videoUrl, { responseType: "stream", timeout: 30000 });
 
           const writer = fs.createWriteStream(filePath);
           response.data.pipe(writer);
@@ -49,19 +42,20 @@ module.exports = {
           });
         }
 
-        // ✅ Step 3: Send video from local file
-        await api.sendMessage({
-          body: "𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯 🖤",
+        // 🔧 Step 3: Send video
+        api.sendMessage({
+          body: "𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯 🤍",
           attachment: fs.createReadStream(filePath)
         }, threadID, messageID);
 
         api.setMessageReaction("🤣", messageID, () => {}, true);
+
       } catch (err) {
-        console.error("❌ ভিডিও ডাউনলোড error:", err);
+        console.error("❌ ভিডিও ডাউনলোড error:", err.message || err);
         api.sendMessage("❌ ভিডিও ডাউনলোডে সমস্যা হয়েছে!", threadID, messageID);
       }
     }
   },
 
-  start: function () {}
+  start: () => {}
 };
