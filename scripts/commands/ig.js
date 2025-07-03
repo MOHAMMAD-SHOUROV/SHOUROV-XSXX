@@ -3,22 +3,22 @@ module.exports.config = {
   name: `${global.config.PREFIX}`,
   version: "1.0.0", 
   permission: 0,
-  credits: "King_Shourov",
-  description: "Send random caption + random Imgur image with credit",
+  credits: "nayan",
+  description: "", 
   prefix: true,
   category: "user",
-  usages: "/",
+  usages: "",
   cooldowns: 5, 
-  dependencies: {}
+  dependencies: {
+  }
 };
 
-module.exports.run = async ({ api, event }) => {
+module.exports.run = async({api,event,args,client,Users,Threads,__GLOBAL,Currencies}) => {
   const axios = global.nodemodule["axios"];
   const request = global.nodemodule["request"];
   const fs = global.nodemodule["fs-extra"];
-
-  // Caption লিস্ট
-  const captions = [
+  
+  var hi = [
     "❝ আমি তোমাকে ভালোবাসতাম… কিন্তু তুমি তো বুঝোনি ❞",
     "❝ হঠাৎ করে দূরে সরে যাবো একদিন, তখন খুঁজে পাবে… ❞",
     "❝ ভাঙা মন আর ভাঙা বিশ্বাস কোনোদিন জোড়া লাগে না… ❞",
@@ -30,9 +30,10 @@ module.exports.run = async ({ api, event }) => {
     "❝ জীবনটা তখনই সুন্দর ছিল, যখন ভাবতাম চাঁদটা আমার... ❞",
     "❝ Life Is Beautiful If You Don’t Fall In Love ❞\n♡︎ _জীবন সুন্দর যদি কারো মায়ায় না পড়ো 🙂💔"
   ];
-
-  // Imgur ছবির লিঙ্ক লিস্ট
-  const images = [
+  
+  var know = hi[Math.floor(Math.random() * hi.length)];
+  
+  var link = [
     "https://i.imgur.com/e1X4FL9.jpeg",
     "https://i.imgur.com/TG3rIiJ.jpeg",
     "https://i.imgur.com/GggjGf9.jpeg",
@@ -44,40 +45,17 @@ module.exports.run = async ({ api, event }) => {
     "https://i.imgur.com/aWntUvL.jpeg",
     "https://i.imgur.com/aWntUvL.jpeg"
   ];
-
-  // র‍্যান্ডম ক্যাপশন ও ছবি বাছাই
-  const caption = captions[Math.floor(Math.random() * captions.length)];
-  const imageURL = images[Math.floor(Math.random() * images.length)];
-  const filePath = __dirname + "/cache/5.jpg";
-
-  // ফটো ডাউনলোড এবং মেসেজ পাঠানোর ফাংশন
-  const sendMessage = () => {
-    const messageBody = `╔═══ 🖤 𝐒𝐚𝐝 𝐌𝐨𝐦𝐞𝐧𝐭 ═══╗\n` +
-                        `❝ ${caption} ❞\n` +
-                        `╚════════════════════╝\n\n` +
-                        `– 🖤 সৌরভ বট`;
-    api.sendMessage(
-      {
-        body: messageBody,
-        attachment: fs.createReadStream(filePath)
-      },
-      event.threadID,
-      () => fs.unlink(filePath, () => {})
-    );
-  };
-
-  try {
-    // ছবি ডাউনলোড করা হচ্ছে
-    const res = await axios({
-      url: imageURL,
-      method: "GET",
-      responseType: "stream"
-    });
-    const writer = fs.createWriteStream(filePath);
-    res.data.pipe(writer);
-    writer.on("finish", sendMessage);
-    writer.on("error", () => api.sendMessage("❌ ছবি আনতে সমস্যা হয়েছে...", event.threadID));
-  } catch (error) {
-    api.sendMessage("❌ ছবি আনতে সমস্যা হয়েছে...", event.threadID);
-  }
+  
+  var callback = () => api.sendMessage(
+    {
+      body: `「 ${know} 」`,
+      attachment: fs.createReadStream(__dirname + "/cache/5.jpg")
+    },
+    event.threadID,
+    () => fs.unlinkSync(__dirname + "/cache/5.jpg")
+  );
+  
+  return request(encodeURI(link[Math.floor(Math.random() * link.length)]))
+    .pipe(fs.createWriteStream(__dirname + "/cache/5.jpg"))
+    .on("close", () => callback());
 };
