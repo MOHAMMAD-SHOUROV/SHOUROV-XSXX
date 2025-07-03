@@ -8,7 +8,7 @@ module.exports = {
     prefix: false,
     permission: 0,
     credits: "nayan",
-    description: "Fun audio emoji reply",
+    description: "Fun emoji response",
     category: "no prefix",
     usages: "🥰",
     cooldowns: 5,
@@ -21,10 +21,12 @@ module.exports = {
     const emojis = ["😘", "🥰", "😍", "🤩"];
     if (!emojis.some(e => body.startsWith(e))) return;
 
-    const audioPath = path.join(__dirname, "../cache/shourov_love.mp3");
+    // ✅ অডিও ফাইলের সঠিক নাম ও লোকেশন
+    const audioPath = path.join(__dirname, "../cache/এত ভালোবাসা কই পাও আমার বস সৌরভ কে একটু দেও _1751567240087.mp3");
 
+    // ✅ ফাইল আছে কি না চেক করো
     if (!fs.existsSync(audioPath)) {
-      console.log("❌ File not found at:", audioPath);
+      console.log("❌ অডিও ফাইল পাওয়া যায়নি:", audioPath);
       return api.sendMessage("❌ অডিও ফাইল পাওয়া যায়নি!", threadID, messageID);
     }
 
