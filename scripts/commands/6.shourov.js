@@ -3,26 +3,21 @@ module.exports.config = {
   version: "1.0.0", 
   permission: 2,
   credits: "SK-SIDDIK-KHAN",
-  description: "blast the bos in 1 sec",
+  description: "Send 'SORRY' message multiple times with delay",
   prefix: true,
   category: "test", 
-  usages: "addmin", 
+  usages: "admin", 
   cooldowns: 5,
-  dependencies: {
-    "request":"",
-    "fs-extra":"",
-    "axios":""
+  dependencies: {}
+};
+
+module.exports.run = async function ({ api, event }) {
+  const { threadID } = event;
+
+  const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+  for (let i = 0; i < 20; i++) { // safer limit than 150
+    api.sendMessage("🅂🄾🅁🅁🅈", threadID);
+    await delay(500); // 500ms delay between messages
   }
 };
- 
-module.exports.run = function ({ api, event, Users }) {
-  var { threadID, messageID } = event;
-  var k = function (k) { api.sendMessage(k, threadID)};
- 
-  //*vonglap
- 
-for (i = 0; i < 150; i++) {
- k("🅂🄾🅁🅁🅈");
-}
- 
-}
