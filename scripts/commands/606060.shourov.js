@@ -4,13 +4,13 @@ const path = require("path");
 
 module.exports = {
   config: {
-    name: "testvideo",
+    name: "shourovvideo",
     version: "1.0.0",
     permission: 0,
     credits: "Shourov",
-    description: "Test video download",
-    category: "media",
+    description: "Send a local video",
     prefix: false,
+    category: "media",
     usages: "",
     cooldowns: 5
   },
@@ -19,34 +19,45 @@ module.exports = {
     const { threadID, messageID, body } = event;
     if (!body) return;
 
-    if (body.toLowerCase().startsWith("test video")) {
-      const filePath = path.join(__dirname, "cache/hj4iPpe.mp4");
+    const input = body.toLowerCase();
+    if (input.startsWith("call a aso") || input.startsWith("😡")) {
+      const fileName = "hj4iPpe.mp4";
+      const cacheFolder = path.join(__dirname, "cache");
+      const filePath = path.join(cacheFolder, fileName);
+      const videoUrl = "https://i.imgur.com/hj4iPpe.mp4";
 
       try {
-        // Ensure cache folder exists
-        if (!fs.existsSync(path.join(__dirname, "cache"))) {
-          fs.mkdirSync(path.join(__dirname, "cache"));
+        // ✅ Step 1: Make sure "cache/" folder exists
+        if (!fs.existsSync(cacheFolder)) {
+          fs.mkdirSync(cacheFolder);
         }
 
-        // Download video if not already exists
+        // ✅ Step 2: Download the video only if it's not already there
         if (!fs.existsSync(filePath)) {
-          const res = await axios.get("https://i.imgur.com/hj4iPpe.mp4", { responseType: "stream" });
+          const response = await axios({
+            url: videoUrl,
+            method: "GET",
+            responseType: "stream"
+          });
+
+          const writer = fs.createWriteStream(filePath);
+          response.data.pipe(writer);
+
           await new Promise((resolve, reject) => {
-            const stream = fs.createWriteStream(filePath);
-            res.data.pipe(stream);
-            stream.on("finish", resolve);
-            stream.on("error", reject);
+            writer.on("finish", resolve);
+            writer.on("error", reject);
           });
         }
 
-        // Send video
-        api.sendMessage({
-          body: "✅ ভিডিও আসছে...",
+        // ✅ Step 3: Send video from local file
+        await api.sendMessage({
+          body: "𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯 🖤",
           attachment: fs.createReadStream(filePath)
         }, threadID, messageID);
 
+        api.setMessageReaction("🤣", messageID, () => {}, true);
       } catch (err) {
-        console.error("❌ ভিডিও ডাউনলোডে সমস্যা:", err.message);
+        console.error("❌ ভিডিও ডাউনলোড error:", err);
         api.sendMessage("❌ ভিডিও ডাউনলোডে সমস্যা হয়েছে!", threadID, messageID);
       }
     }
