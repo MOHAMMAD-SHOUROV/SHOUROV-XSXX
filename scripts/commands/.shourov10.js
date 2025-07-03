@@ -22,7 +22,7 @@ module.exports = {
     if (content.startsWith("🥺") || content.startsWith("🥹")) {
       try {
         // নতুন ভিডিও URL ব্যবহার
-        const videoURL = 'https://files.catbox.moe/lxyz1f.mp4';
+        const videoURL = 'https://i.imgur.com/fPwwRS3.mp4';
 
         const response = await axios.get(videoURL, {
           responseType: "stream",
