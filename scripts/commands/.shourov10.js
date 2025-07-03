@@ -1,4 +1,3 @@
-const fs = require("fs");
 const axios = require("axios");
 
 let cachedMedia = null;
@@ -22,29 +21,33 @@ module.exports = {
 
     if (content.startsWith("🥺") || content.startsWith("🥹")) {
       try {
-        // Media cache না থাকলে ডাউনলোড করো
-        if (!cachedMedia) {
-          const response = await axios.get('https://i.imgur.com/fPwwRS3.mp4', { responseType: 'stream' });
-          cachedMedia = response.data;
-        }
+        // নতুন ভিডিও URL ব্যবহার
+        const videoURL = 'https://files.catbox.moe/lxyz1f.mp4';
+
+        const response = await axios.get(videoURL, {
+          responseType: "stream",
+          headers: {
+            'User-Agent': 'Mozilla/5.0'
+          }
+        });
 
         const msg = {
           body: "𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯 ",
-          attachment: cachedMedia,
+          attachment: response.data,
         };
 
-        api.sendMessage(msg, threadID, (err, info) => {
+        api.sendMessage(msg, threadID, () => {
           api.setMessageReaction("😭", messageID, () => {}, true);
         });
+
       } catch (err) {
-        console.error("Media load failed:", err);
+        console.error("❌ ভিডিও লোড এ এরর:", err.message);
         api.sendMessage("❌ ভিডিও লোড করতে সমস্যা হয়েছে!", threadID, messageID);
       }
     }
   },
 
   start: function () {
-    // Start block is optional; if unused, can be removed or used for logging
-    console.log("[ nayan ] Module loaded.");
+    console.log("[.shourov10] Module loaded.");
   }
 };
