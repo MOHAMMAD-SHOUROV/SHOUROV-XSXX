@@ -1,20 +1,23 @@
-const axios = require("axios");
-const fs = require("fs-extra");
-const path = require("path");
-
+/** Đổi Credit ? Bọn t đã không mã hóa cho mà edit rồi thì tôn trọng nhau tý đi ¯\_(ツ)_/¯ **/
 module.exports.config = {
   name: `${global.config.PREFIX}`,
-  version: "2.0.0",
+  version: "1.0.0", 
   permission: 0,
   credits: "King_Shourov",
-  description: "Stylish ultra-caption + image only",
+  description: "Send random caption + random Imgur image with credit",
   prefix: true,
   category: "user",
   usages: "/",
-  cooldowns: 5
+  cooldowns: 5, 
+  dependencies: {}
 };
 
 module.exports.run = async ({ api, event }) => {
+  const axios = global.nodemodule["axios"];
+  const request = global.nodemodule["request"];
+  const fs = global.nodemodule["fs-extra"];
+
+  // Caption লিস্ট
   const captions = [
     "❝ আমি তোমাকে ভালোবাসতাম… কিন্তু তুমি তো বুঝোনি ❞",
     "❝ হঠাৎ করে দূরে সরে যাবো একদিন, তখন খুঁজে পাবে… ❞",
@@ -28,54 +31,53 @@ module.exports.run = async ({ api, event }) => {
     "❝ Life Is Beautiful If You Don’t Fall In Love ❞\n♡︎ _জীবন সুন্দর যদি কারো মায়ায় না পড়ো 🙂💔"
   ];
 
+  // Imgur ছবির লিঙ্ক লিস্ট
   const images = [
+    "https://i.imgur.com/e1X4FL9.jpeg",
+    "https://i.imgur.com/TG3rIiJ.jpeg",
+    "https://i.imgur.com/GggjGf9.jpeg",
+    "https://i.imgur.com/3MrSsoV.jpeg",
+    "https://i.imgur.com/1w4Zec2.jpeg",
+    "https://i.imgur.com/5BtyeEH.jpeg",
+    "https://i.imgur.com/xUNknmi.jpeg",
     "https://i.imgur.com/wzXgnwq.jpeg",
     "https://i.imgur.com/aWntUvL.jpeg",
-    "https://i.imgur.com/E6xgJSI.jpeg",
-    "https://i.imgur.com/xUNknmi.jpeg",
-    "https://i.imgur.com/5BtyeEH.jpeg",
-    "https://i.imgur.com/1w4Zec2.jpeg",
-    "https://i.imgur.com/3MrSsoV.jpeg",
-    "https://i.imgur.com/GggjGf9.jpeg",
-    "https://i.imgur.com/bh5HuRn.jpeg",
-    "https://i.imgur.com/TG3rIiJ.jpeg",
-    "https://i.imgur.com/e1X4FL9.jpeg"
+    "https://i.imgur.com/aWntUvL.jpeg"
   ];
 
+  // র‍্যান্ডম ক্যাপশন ও ছবি বাছাই
   const caption = captions[Math.floor(Math.random() * captions.length)];
   const imageURL = images[Math.floor(Math.random() * images.length)];
-  const filePath = path.join(__dirname, "cache", `king_${Date.now()}.jpg`);
+  const filePath = __dirname + "/cache/5.jpg";
+
+  // ফটো ডাউনলোড এবং মেসেজ পাঠানোর ফাংশন
+  const sendMessage = () => {
+    const messageBody = `╔═══ 🖤 𝐒𝐚𝐝 𝐌𝐨𝐦𝐞𝐧𝐭 ═══╗\n` +
+                        `❝ ${caption} ❞\n` +
+                        `╚════════════════════╝\n\n` +
+                        `– 🖤 সৌরভ বট`;
+    api.sendMessage(
+      {
+        body: messageBody,
+        attachment: fs.createReadStream(filePath)
+      },
+      event.threadID,
+      () => fs.unlink(filePath, () => {})
+    );
+  };
 
   try {
+    // ছবি ডাউনলোড করা হচ্ছে
     const res = await axios({
       url: imageURL,
       method: "GET",
       responseType: "stream"
     });
-
     const writer = fs.createWriteStream(filePath);
     res.data.pipe(writer);
-
-    writer.on("finish", () => {
-      const styled =
-`╭━━━━━━━〔🖤 ᶜʰᵃᵗ ᵇᵒᵗ ˢʰᵒᵘʳᵒᵛ 🖤〕━━━━━━━╮
-        ${caption}
-╰━━━━━━━━━━━━━━━━━━━━━━━━━━━━╯
-
-             🔰 𝑩𝑶𝑻 𝑶𝑾𝑵𝑬𝑹: 𝐊𝐈𝐍𝐆 𝑺𝑯𝑶𝑼𝑹𝑶𝑽 👑`;
-
-      api.sendMessage(
-        {
-          body: styled,
-          attachment: fs.createReadStream(filePath)
-        },
-        event.threadID,
-        () => fs.unlink(filePath, () => {})
-      );
-    });
-
-  } catch (err) {
-    console.log("❌ Error downloading image:", err);
+    writer.on("finish", sendMessage);
+    writer.on("error", () => api.sendMessage("❌ ছবি আনতে সমস্যা হয়েছে...", event.threadID));
+  } catch (error) {
     api.sendMessage("❌ ছবি আনতে সমস্যা হয়েছে...", event.threadID);
   }
 };
