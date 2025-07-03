@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 
 module.exports = {
   config: {
@@ -24,14 +25,16 @@ module.exports = {
       body.startsWith("🤩")
     ) {
       try {
-        const audioPath = __dirname + "/../cache/Shourov.mp3"; // ঠিক path
+        const audioPath = path.resolve(__dirname, "../cache/Shourov.mp3");
+        console.log("Audio file path:", audioPath);
+        console.log("File exists:", fs.existsSync(audioPath));
 
         if (!fs.existsSync(audioPath)) {
           return api.sendMessage("❌ অডিও ফাইল পাওয়া যায়নি!", threadID, messageID);
         }
 
         const msg = {
-          body: "এ্ঁত্ঁ ভা্ঁলো্ঁবা্ঁসা্ঁ ক্ঁই্ঁ পা্ঁও্ঁ আ্ঁমা্ঁর্ঁ ব্ঁস্ঁ সৌ্ঁর্ঁভ্ঁ কে্ঁ এ্ঁক্ঁটুঁ দে্ঁও্ঁ 🌺",
+          body: "এ্ঁত্ঁ ভা্ঁলো্ঁবা্ঁসা্ঁ ক্ঁই্ঁ পা্ঁওﬄ আﬄমাﬄর্ং বﬄসﬄ সৌﬄর্ংভﬄ কেﬄ এ্ঁক্ঁটুঁ দেﬄওﬄ 🌺",
           attachment: fs.createReadStream(audioPath),
         };
 
