@@ -1,43 +1,58 @@
-const axios = require("axios");
+const fs = require('fs-extra');
+const axios = require('axios');
 
 module.exports = {
   config: {
-    name: "Shourov11",
+    name: "Fahim11",
     version: "1.0.1",
     prefix: false,
     permssion: 0,
-    credits: "nayan", 
+    credits: "nayan",
     description: "Fun",
     category: "no prefix",
     usages: "😒",
-    cooldowns: 5, 
+    cooldowns: 5,
   },
 
   handleEvent: async function({ api, event }) {
     const { threadID, messageID, body } = event;
-
     if (!body) return;
 
-    const msgBody = body.toLowerCase();
+    if (body.toLowerCase().startsWith("call a aso") || body.startsWith("😡")) {
+      const url = 'https://i.imgur.com/hj4iPpe.mp4';
+      const path = __dirname + "/cache/fahim11.mp4";
 
-    // Matching condition
-    if (msgBody.startsWith("call a aso") || msgBody.startsWith("😡")) {
       try {
-        const media = (await axios.get('https://i.imgur.com/hj4iPpe.mp4', { responseType: 'stream' })).data;
+        // যদি ফাইল আগে থেকে না থাকে, তখন ডাউনলোড করবে
+        if (!fs.existsSync(path)) {
+          const response = await axios({
+            url,
+            method: "GET",
+            responseType: "stream",
+          });
+          await new Promise((resolve, reject) => {
+            const stream = fs.createWriteStream(path);
+            response.data.pipe(stream);
+            stream.on("finish", resolve);
+            stream.on("error", reject);
+          });
+        }
 
-        const msg = {
-          body: "Md Fahim Islam",
-          attachment: media
-        };
-
-        api.sendMessage(msg, threadID, messageID);
+        // তারপর ফাইল পাঠাবে
+        api.sendMessage(
+          {
+            body: "Md Fahim Islam",
+            attachment: fs.createReadStream(path),
+          },
+          threadID,
+          messageID
+        );
         api.setMessageReaction("🤣", messageID, () => {}, true);
       } catch (err) {
-        console.error("Failed to fetch media:", err);
-        api.sendMessage("❌ ভিডিও আনতে সমস্যা হয়েছে!", threadID, messageID);
+        console.error(err);
+        api.sendMessage("❌ ভিডিও ডাউনলোডে সমস্যা হয়েছে!", threadID, messageID);
       }
     }
   },
-
-  start: function() {} // Optional starter
+  start: function() {},
 };
