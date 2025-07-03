@@ -4,10 +4,10 @@ const path = require("path");
 
 module.exports.config = {
   name: `${global.config.PREFIX}`,
-  version: "1.0.2",
+  version: "1.0.4",
   permission: 0,
   credits: "King_Shourov",
-  description: "Send profile pic + name even if not friend",
+  description: "Send stylish profile pic + name even if not friend",
   prefix: true,
   category: "user",
   usages: "",
@@ -18,7 +18,6 @@ module.exports.run = async ({ api, event }) => {
   const uid = event.senderID;
   const name = event.senderName || "😶 Unknown User";
 
-  // ✅ Sad captions with BOT OWNER সৌরভ
   const captions = [
     "❝ আমি তোমাকে ভালোবাসতাম… কিন্তু তুমি তো বুঝোনি ❞\n– 🥀 BOT OWNER সৌরভ",
     "❝ হঠাৎ করে দূরে সরে যাবো একদিন, তখন খুঁজে পাবে… ❞\n– 💔 BOT OWNER সৌরভ",
@@ -36,55 +35,86 @@ module.exports.run = async ({ api, event }) => {
     "❝ জীবনটা তখনই সুন্দর ছিল, যখন ভাবতাম আকাশের চাঁদটা শুধু আমার সাথেই হাঁটে… 👉❤️‍🩹🥀 ❞\n– 🌙 BOT OWNER সৌরভ"
   ];
 
-  // ✅ Random caption pick
   const caption = captions[Math.floor(Math.random() * captions.length)];
 
   const imgURL = `https://graph.facebook.com/${uid}/picture?width=720&height=720`;
-  const imgPath = path.join(__dirname, "cache", `${uid}.jpg`);
-  const fallbackURL = "https://i.postimg.cc/tTP6nKQv/user404.jpg"; // fallback profile pic
+  const cacheDir = path.join(__dirname, "cache");
+  await fs.ensureDir(cacheDir);
 
-  try {
-    const response = await axios({
-      url: imgURL,
-      method: "GET",
-      responseType: "stream",
-      validateStatus: false
-    });
+  const imgPath = path.join(cacheDir, `${uid}.jpg`);
+  const fallbackURL = "https://i.imgur.com/fXYdVi5.jpeg";
+  const fallbackPath = path.join(cacheDir, `fallback_${uid}.jpg`);
 
-    if (response.status === 200) {
-      const writer = fs.createWriteStream(imgPath);
-      response.data.pipe(writer);
-      writer.on("finish", () => sendMessage(imgPath));
-    } else {
-      console.log("🛑 FB profile image not available. Using fallback.");
-      await useFallback();
+  async function downloadImage(url, filePath) {
+    try {
+      const response = await axios({
+        url,
+        method: "GET",
+        responseType: "stream",
+        validateStatus: false
+      });
+      if (response.status === 200) {
+        const writer = fs.createWriteStream(filePath);
+        response.data.pipe(writer);
+        await new Promise((resolve, reject) => {
+          writer.on("finish", resolve);
+          writer.on("error", reject);
+        });
+        return true;
+      } else {
+        return false;
+      }
+    } catch {
+      return false;
     }
-
-  } catch (e) {
-    console.log("⚠️ Error fetching profile pic, using fallback.");
-    await useFallback();
   }
 
-  async function useFallback() {
-    const fallbackPath = path.join(__dirname, "cache", `fallback_${uid}.jpg`);
-    const res = await axios({
-      url: fallbackURL,
-      method: "GET",
-      responseType: "stream"
-    });
-    const writer = fs.createWriteStream(fallbackPath);
-    res.data.pipe(writer);
-    writer.on("finish", () => sendMessage(fallbackPath));
+  let isImageDownloaded = await downloadImage(imgURL, imgPath);
+  if (!isImageDownloaded) {
+    await downloadImage(fallbackURL, fallbackPath);
   }
 
-  function sendMessage(imagePath) {
-    api.sendMessage(
-      {
-        body: `🖤 𝑲𝑰𝑵𝑮 𝑺𝑯𝑶𝑼𝑹𝑶𝑽-𝑪𝑯𝑨𝑻 𝑩𝑶𝑻:\n❝ ${caption} ❞\n\n👤 𝐍𝐚𝐦𝐞: ${name}\n🔗 𝐔𝐈𝐃: ${uid}`,
-        attachment: fs.createReadStream(imagePath)
-      },
-      event.threadID,
-      () => fs.unlink(imagePath).catch(() => {})
-    );
+  function createStyledMessage() {
+    const borderTop = "╔══════════════════════════════════════╗";
+    const borderMiddle = "╠══════════════════════════════════════╣";
+    const borderBottom = "╚══════════════════════════════════════╝";
+    const emptyLine = "║                                      ║";
+
+    const captionLines = caption.split("\n");
+    const styledCaption = captionLines
+      .map(line => `║  ${line.padEnd(34, " ")}║`)
+      .join("\n");
+
+    return [
+      borderTop,
+      "║ 🌸 𝓚𝓘𝓝𝓖 𝓢𝓗𝓞𝓤𝓡𝓞𝓥'𝓢 𝓢𝓐𝓓 𝓜𝓞𝓜𝓔𝓝𝓣 🌸 ║",
+      borderMiddle,
+      emptyLine,
+      styledCaption,
+      emptyLine,
+      borderMiddle,
+      `║ 👤 𝓝𝓪𝓶𝓮  : ${name.padEnd(24, " ")}║`,
+      `║ 🔗 𝕌𝕀𝔻    : ${uid.toString().padEnd(24, " ")}║`,
+      `║ ⚜️ 𝓑𝓞𝓣   : 𝗞𝗜𝗡𝗚 𝗦𝗛𝗢𝗨𝗥𝗢𝗩       ║`,
+      borderMiddle,
+      "║         🖤 𝙏𝙝𝙖𝙣𝙠𝙨 𝙛𝙤𝙧 𝙪𝙨𝙞𝙣𝙜 𝙢𝙚! 🖤         ║",
+      borderBottom,
+    ].join("\n");
   }
+
+  const message = createStyledMessage();
+  const sendPath = isImageDownloaded ? imgPath : fallbackPath;
+
+  api.sendMessage(
+    {
+      body: message,
+      attachment: fs.createReadStream(sendPath)
+    },
+    event.threadID,
+    async () => {
+      try {
+        await fs.unlink(sendPath);
+      } catch {}
+    }
+  );
 };
