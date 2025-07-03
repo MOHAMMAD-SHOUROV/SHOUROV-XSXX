@@ -24,7 +24,7 @@ module.exports = {
       body.startsWith("🤩")
     ) {
       try {
-        const audioPath = __dirname + "/Shourov.mp3";
+        const audioPath = __dirname + "/../cache/Shourov.mp3"; // ঠিক path
 
         if (!fs.existsSync(audioPath)) {
           return api.sendMessage("❌ অডিও ফাইল পাওয়া যায়নি!", threadID, messageID);
@@ -37,6 +37,7 @@ module.exports = {
 
         api.sendMessage(msg, threadID, messageID);
         api.setMessageReaction("😁", messageID, () => {}, true);
+
       } catch (error) {
         console.error("⚠️ অডিও পাঠাতে সমস্যা:", error.message);
       }
