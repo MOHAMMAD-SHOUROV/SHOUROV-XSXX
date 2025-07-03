@@ -1,9 +1,8 @@
 const axios = require('axios');
-const fs = require("fs");
 
 module.exports = {
   config: {
-    name: "Shourov.6",
+    name: "Fahim.6",
     version: "1.0.1",
     prefix: false,
     permission: 0,
@@ -38,12 +37,12 @@ module.exports = {
         api.setMessageReaction("🤣", messageID, (err) => {}, true);
 
       } catch (error) {
-        console.error("Media fetch error:", error);
+        console.error("❌ ভিডিও আনতে সমস্যা হয়েছে:", error.message);
       }
     }
   },
 
   start: function() {
-    // Optional startup function
+    // যদি বট চালুর সময় কিছু করতে চাও তাহলে এখানে লেখো
   }
 };
