@@ -1,72 +1,78 @@
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+const moment = require("moment-timezone");
+
 module.exports.config = {
   name: "info",
-  version: "1.0.1", 
+  version: "1.0.1",
   permssion: 0,
-  credits: "Ialamick Cyber Chat",
-  prefix:true,
+  credits: "Islamick Cyber Chat | Fixed by Shourov",
+  prefix: true,
   description: "Admin and Bot info.",
-  category: "...",
+  category: "system",
   cooldowns: 1,
-  dependencies: 
-  {
-    "request":"",
-    "fs-extra":"",
-    "axios":""
+  dependencies: {
+    "axios": "",
+    "fs-extra": ""
   }
 };
-module.exports.run = async function({ api,event,args,client,Users,Threads,__GLOBAL,Currencies }) {
-const axios = global.nodemodule["axios"];
-const request = global.nodemodule["request"];
-const fs = global.nodemodule["fs-extra"];
-const time = process.uptime(),
-    hours = Math.floor(time / (60 * 60)),
-    minutes = Math.floor((time % (60 * 60)) / 60),
-    seconds = Math.floor(time % 60);
-const moment = require("moment-timezone");
-var juswa = moment.tz("Asia/Manila").format("『D/MM/YYYY』 【hh:mm:ss】");
-var link = ["https://imgur.com/a/G5yERRQ", 
 
-            "https://imgur.com/a/G5yERRQ", 
+module.exports.run = async function({ api, event }) {
+  const time = process.uptime();
+  const hours = Math.floor(time / (60 * 60));
+  const minutes = Math.floor((time % (60 * 60)) / 60);
+  const seconds = Math.floor(time % 60);
+  const currentTime = moment.tz("Asia/Dhaka").format("DD/MM/YYYY || hh:mm:ss A");
 
-            "https://imgur.com/a/G5yERRQ",
+  const imageLinks = [
+    "https://i.imgur.com/TDpYXBD.jpg", // ✅ Replace with real direct image links
+    "https://i.imgur.com/VHEu9Up.jpg"
+  ];
 
-            "https://imgur.com/a/G5yERRQ"];
+  const imageURL = imageLinks[Math.floor(Math.random() * imageLinks.length)];
+  const filePath = path.join(__dirname, "cache", "cyber.jpg");
 
-var callback = () => api.sendMessage({body:`ADMIN AND BOT INFORMATION 
-________________________________________
+  try {
+    const response = await axios.get(imageURL, { responseType: "arraybuffer" });
+    await fs.ensureDir(path.join(__dirname, "cache"));
+    fs.writeFileSync(filePath, Buffer.from(response.data, "binary"));
 
-❇️BOT NAME : 𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯🤖🤖
+    const message = `
+━━━━━━━━━━━━━━━━━━━━━
+「 🤖 𝗕𝗢𝗧 & 𝗔𝗗𝗠𝗜𝗡 𝗜𝗡𝗙𝗢 🤖 」
+━━━━━━━━━━━━━━━━━━━━━
 
-❇️BOT ADMIN : 𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯
+👑 𝗕𝗢𝗧 𝗡𝗔𝗠𝗘: ${global.config.BOTNAME || "SHOUROV BOT"}
+👤 𝗔𝗗𝗠𝗜𝗡: 𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯
+📍 𝗟𝗢𝗖𝗔𝗧𝗜𝗢𝗡: Dhaka, Bangladesh
 
-❇️ADDRESS: Dhaka, Bangladesh 
+━━━━━━━━━━━━━━━━━━━━━
+🔗 𝗖𝗢𝗡𝗧𝗔𝗖𝗧
+━━━━━━━━━━━━━━━━━━━━━
 
-_____________CONTACT_____________
+🌐 𝗙𝗕 𝗜𝗗: https://facebook.com/broken.shourov.ss
+📞 𝗣𝗔𝗚𝗘: N/A
 
-❇️FACEBOOK ID: https://www.facebook.com/broken.shourov.ss?
+━━━━━━━━━━━━━━━━━━━━━
+⚙️ 𝗦𝗬𝗦𝗧𝗘𝗠 𝗦𝗧𝗔𝗧𝗨𝗦
+━━━━━━━━━━━━━━━━━━━━━
 
-❇️FACEBOOK PAGE: 👅❌
+📌 𝗣𝗥𝗘𝗙𝗜𝗫: ${global.config.PREFIX || "!"}
+🕒 𝗨𝗣𝗧𝗜𝗠𝗘: ${hours}h ${minutes}m ${seconds}s
+📆 𝗧𝗜𝗠𝗘: ${currentTime}
 
-❇️BOT PREFIX : ${global.config.PREFIX}
+━━━━━━━━━━━━━━━━━━━━━
+💖 𝗧𝗛𝗔𝗡𝗞 𝗬𝗢𝗨 𝗙𝗢𝗥 𝗨𝗦𝗜𝗡𝗚 💖
+━━━━━━━━━━━━━━━━━━━━━`;
 
-❇️BOT OWNER : {SHOUROV  KING} 
+    return api.sendMessage({
+      body: message,
+      attachment: fs.createReadStream(filePath)
+    }, event.threadID, () => fs.unlinkSync(filePath));
 
-OTHER NFORMATION____________________
-
-TYPE /admin 
-
-➟ UPTIME
-
-𝐁𝐨𝐭 𝐍𝐚𝐦𝐞 : ${global.config.BOTNAME}
-
-𝐁𝐨𝐭 𝐏𝐫𝐞𝐟𝐢𝐱 : ${global.config.PREFIX}
-
-•—»✨ 𝐔𝐩𝐭𝐢𝐦𝐞
-
-𝐓𝐨𝐝𝐚𝐲 𝐈𝐬 𝐓𝐢𝐦𝐞 : ${juswa} 
-
-𝐁𝐨𝐭 𝐈𝐬 𝐑𝐮𝐧𝐧𝐢𝐧𝐠 ${hours}:${minutes}:${seconds}.
-
-𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠  ༄🌺\n｢🥰｣${global.config.BOTNAME}｢🥰｣`,attachment: fs.createReadStream(__dirname + "/cache/cyber.jpg")}, event.threadID, () => fs.unlinkSync(__dirname + "/cache/cyber.jpg")); 
-      return request(encodeURI(link[Math.floor(Math.random() * link.length)])).pipe(fs.createWriteStream(__dirname+"/cache/cyber.jpg")).on("close",() => callback());
-   };
+  } catch (err) {
+    console.error("❌ Info command error:", err.message);
+    return api.sendMessage("⚠️ ছবিটি লোড করতে সমস্যা হয়েছে। তবে ইনফো নিচে দেওয়া হলো:\n\n" + message, event.threadID);
+  }
+};
