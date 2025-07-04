@@ -21,8 +21,7 @@ module.exports = {
 
     if (lowered.startsWith("🥰") || lowered.startsWith("😍")) {
       try {
-        // ✅ বাস্তব mp3 ফাইল URL বসাও
-        const url = "https://files.catbox.moe/dtp1ph.mp4; // Replace with valid mp3
+        const url = "https://files.catbox.moe/dtp1ph.mp4"; // ✅ সঠিকভাবে বন্ধ করা হয়েছে
         const response = await axios.get(url, { responseType: 'stream' });
 
         const msg = {
