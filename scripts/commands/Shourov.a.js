@@ -2,23 +2,21 @@ const axios = require('axios');
 
 module.exports = {
   config: {
-    name: "Shourov,a",
+    name: "shourov,a",
     version: "1.0.1",
     prefix: false,
     permission: 0,
     credits: "ss",
-    description: "Fun",
+    description: "Send random video on emoji",
     category: "no prefix",
-    usages: "😒",
+    usages: "Send emoji to trigger",
     cooldowns: 5,
   },
 
-  handleEvent: async function ({ api, event, client, __GLOBAL }) {
+  handleEvent: async function ({ api, event }) {
     const { threadID, messageID, body } = event;
-
     if (!body) return;
 
-    // Define emoji list for triggering the bot
     const emojis = [
       "😗", "😒", "😎", "🤦‍♀️", "😈", "🤕", "💖", "😩", "🙈", "🫡",
       "🫣", "🌺", "😟", "🧐", "🫶", "💘", "💕", "😖", "👺", "🤑", "👏",
@@ -26,26 +24,31 @@ module.exports = {
       "💔", "🧡", "🤦‍♂️", "🙆‍♂️"
     ];
 
-    // Check if the message starts with any emoji from the list
-    const content = body.toLowerCase();
+    const loweredBody = body.toLowerCase();
 
-    if (emojis.some(e => content.startsWith(e))) {
-      // Select a random video from the NAYAN array
-      const NAYAN = [
-        'https://i.imgur.com/AzF8qu2.mp4', 'https://i.imgur.com/1bxxZCK.mp4', 
-        'https://i.imgur.com/zF5Foig.mp4', 'https://i.imgur.com/jbUCtTa.mp4',
-        'https://i.imgur.com/J0sVuRc.mp4', 'https://i.imgur.com/CHMhxku.mp4',
-        'https://i.imgur.com/lEAyLIE.mp4', 'https://i.imgur.com/exfA2k9.mp4',
-        // Add more video URLs here...
+    // যদি কোনো ইমোজি দিয়ে শুরু হয়
+    if (emojis.some(emoji => loweredBody.startsWith(emoji))) {
+      const videos = [
+        'https://i.imgur.com/AzF8qu2.mp4',
+        'https://i.imgur.com/1bxxZCK.mp4',
+        'https://i.imgur.com/zF5Foig.mp4',
+        'https://i.imgur.com/jbUCtTa.mp4',
+        'https://i.imgur.com/J0sVuRc.mp4',
+        'https://i.imgur.com/CHMhxku.mp4',
+        'https://i.imgur.com/lEAyLIE.mp4',
+        'https://i.imgur.com/exfA2k9.mp4'
+        // চাইলে এখানে আরও ভিডিও যোগ করতে পারো
       ];
 
-      const rndm = NAYAN[Math.floor(Math.random() * NAYAN.length)];
+      const randomVideo = videos[Math.floor(Math.random() * videos.length)];
 
-      // Fetch the video stream
-      const media = (await axios.get(rndm, { responseType: 'stream' })).data;
-
-      // Send the video to the thread
-      return api.sendMessage({ attachment: media }, threadID, messageID);
+      try {
+        const response = await axios.get(randomVideo, { responseType: 'stream' });
+        return api.sendMessage({ attachment: response.data }, threadID, messageID);
+      } catch (error) {
+        console.error("❌ ভিডিও পাঠাতে সমস্যা:", error.message);
+        return api.sendMessage("⚠️ ভিডিও পাঠানো যাচ্ছে না, পরে আবার চেষ্টা করুন।", threadID, messageID);
+      }
     }
   }
 };
