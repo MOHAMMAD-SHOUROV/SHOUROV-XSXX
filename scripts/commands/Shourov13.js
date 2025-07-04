@@ -7,7 +7,7 @@ module.exports = {
     prefix: false,
     permission: 0,
     credits: "nayan",
-    description: "Sends a funny video when someone is sad 😭🤧",
+    description: "Sad reacts video",
     category: "no prefix",
     usages: "😭 or 🤧",
     cooldowns: 5,
@@ -21,7 +21,7 @@ module.exports = {
 
     if (lowered.startsWith("😭") || lowered.startsWith("🤧")) {
       try {
-        const url = 'https://i.imgur.com/fBCZCJN.mp4';
+        const url = "https://files.catbox.moe/7cf5c9.mp4"; // Replace with actual link
         const response = await axios.get(url, { responseType: 'stream' });
 
         const msg = {
