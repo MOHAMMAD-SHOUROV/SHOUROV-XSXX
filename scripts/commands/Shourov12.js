@@ -1,38 +1,44 @@
-const fs = require("fs");
+const axios = require("axios");
+
 module.exports = {
-  config:{
-	name: "Shourov12",
-        version: "1.0.1",
-        prefix: false,
-	permssion: 0,
-	credits: "nayan", 
-	description: "Fun",
-	category: "no prefix",
-	usages: "😒",
-        cooldowns: 5, 
-},
+  config: {
+    name: "shourov12",
+    version: "1.0.1",
+    prefix: false,
+    permission: 0,
+    credits: "nayan",
+    description: "Fun audio trigger",
+    category: "no prefix",
+    usages: "🥰 or 😍",
+    cooldowns: 5,
+  },
 
-handleEvent: async function({ api, event, client, __GLOBAL }) {
-	var { threadID, messageID } = event;
-  const content = event.body ? event.body : '';
-  const body = content.toLowerCase();
-  const axios = require('axios')
-const media = (
-    await axios.get(
-      'https://i.imgur.com/ahim.mp3',
-      { responseType: 'stream' }
-    )
-  ).data;
+  handleEvent: async function({ api, event }) {
+    const { threadID, messageID, body } = event;
+    if (!body) return;
 
-	if (body.indexOf("🥰")==0 || body.indexOf("😍")==0) {
-		var msg = {
-				body: "Md Fahim islam ",
-				attachment: media
-			}
-			api.sendMessage( msg, threadID, messageID);
-    api.setMessageReaction("🤭", event.messageID, (err) => {}, true)
-		}
-	},
-	start: function({ nayan }) {
-  }
-}
+    const lowered = body.toLowerCase();
+
+    if (lowered.startsWith("🥰") || lowered.startsWith("😍")) {
+      try {
+        // ✅ বাস্তব mp3 ফাইল URL বসাও
+        const url = ".....; // Replace with valid mp3
+        const response = await axios.get(url, { responseType: 'stream' });
+
+        const msg = {
+          body: "𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯",
+          attachment: response.data
+        };
+
+        api.sendMessage(msg, threadID, messageID);
+        api.setMessageReaction("🤭", messageID, () => {}, true);
+
+      } catch (err) {
+        console.error("⚠️ অডিও পাঠাতে সমস্যা:", err.message);
+        api.sendMessage("❌ অডিও পাঠানো সম্ভব হয়নি!", threadID, messageID);
+      }
+    }
+  },
+
+  start() {}
+};
