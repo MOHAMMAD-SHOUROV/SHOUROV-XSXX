@@ -1,75 +1,88 @@
+const fs = require("fs-extra");
+const path = require("path");
+const axios = require("axios");
+const jimp = require("jimp");
+
 module.exports.config = {
-  name: "lovef", 
-  version: "1.0.0", 
+  name: "lovef",
+  version: "1.0.0",
   permission: 0,
   credits: "SK-SIDDIK-KHAN",
-  description: "",
+  description: "Create a love image with tagged user",
   prefix: true,
-  category: "Love", 
-  usages: "user", 
+  category: "Love",
+  usages: "lovef @user",
   cooldowns: 5,
   dependencies: {
-        "axios": "",
-        "fs-extra": "",
-        "path": "",
-        "jimp": ""
-    }
+    "axios": "",
+    "fs-extra": "",
+    "path": "",
+    "jimp": ""
+  }
 };
- 
-module.exports.onLoad = async() => {
-    const { resolve } = global.nodemodule["path"];
-    const { existsSync, mkdirSync } = global.nodemodule["fs-extra"];
-    const { downloadFile } = global.utils;
-    const dirMaterial = __dirname + `/cache/canvas/`;
-    const path = resolve(__dirname, 'cache/canvas', 'frame4.jpeg');
-    if (!existsSync(dirMaterial + "canvas")) mkdirSync(dirMaterial, { recursive: true });
-    if (!existsSync(path)) await downloadFile("https://i.imgur.com/Tavx3Pv.jpg", path);
+
+module.exports.onLoad = async () => {
+  const dir = path.join(__dirname, 'cache/canvas');
+  const framePath = path.join(dir, 'frame4.jpeg');
+
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  if (!fs.existsSync(framePath)) {
+    const res = await axios.get("https://i.imgur.com/Tavx3Pv.jpg", { responseType: "arraybuffer" });
+    fs.writeFileSync(framePath, res.data);
+  }
+};
+
+async function circle(imagePath) {
+  const image = await jimp.read(imagePath);
+  image.circle();
+  return await image.getBufferAsync("image/png");
 }
- 
+
 async function makeImage({ one, two }) {
-    const fs = global.nodemodule["fs-extra"];
-    const path = global.nodemodule["path"];
-    const axios = global.nodemodule["axios"]; 
-    const jimp = global.nodemodule["jimp"];
-    const __root = path.resolve(__dirname, "cache", "canvas");
- 
-    let batgiam_img = await jimp.read(__root + "/frame4.jpeg");
-    let pathImg = __root + `/batman${one}_${two}.jpeg`;
-    let avatarOne = __root + `/avt_${one}.jpeg`;
-    let avatarTwo = __root + `/avt_${two}.jpeg`;
-    
-    let getAvatarOne = (await axios.get(`https://graph.facebook.com/${one}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`, { responseType: 'arraybuffer' })).data;
-    fs.writeFileSync(avatarOne, Buffer.from(getAvatarOne, 'utf-8'));
-    
-    let getAvatarTwo = (await axios.get(`https://graph.facebook.com/${two}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`, { responseType: 'arraybuffer' })).data;
-    fs.writeFileSync(avatarTwo, Buffer.from(getAvatarTwo, 'utf-8'));
-    
-    let circleOne = await jimp.read(await circle(avatarOne));
-    let circleTwo = await jimp.read(await circle(avatarTwo));
-    batgiam_img.composite(circleOne.resize(200, 200), 540, 90).composite(circleTwo.resize(280, 280), 108, 108);
-    
-    let raw = await batgiam_img.getBufferAsync("image/jpeg");
-    
-    fs.writeFileSync(pathImg, raw);
-    fs.unlinkSync(avatarOne);
-    fs.unlinkSync(avatarTwo);
-    
-    return pathImg;
+  const dir = path.join(__dirname, "cache/canvas");
+  const bg = await jimp.read(path.join(dir, "frame4.jpeg"));
+
+  const avatarOnePath = path.join(dir, `avt_${one}.jpeg`);
+  const avatarTwoPath = path.join(dir, `avt_${two}.jpeg`);
+  const outputPath = path.join(dir, `love_${one}_${two}.jpeg`);
+
+  const avatarOne = (await axios.get(`https://graph.facebook.com/${one}/picture?width=512&height=512&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`, { responseType: 'arraybuffer' })).data;
+  fs.writeFileSync(avatarOnePath, Buffer.from(avatarOne, "utf-8"));
+
+  const avatarTwo = (await axios.get(`https://graph.facebook.com/${two}/picture?width=512&height=512&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`, { responseType: 'arraybuffer' })).data;
+  fs.writeFileSync(avatarTwoPath, Buffer.from(avatarTwo, "utf-8"));
+
+  const circledOne = await jimp.read(await circle(avatarOnePath));
+  const circledTwo = await jimp.read(await circle(avatarTwoPath));
+
+  bg.composite(circledOne.resize(200, 200), 540, 90);
+  bg.composite(circledTwo.resize(280, 280), 108, 108);
+
+  const finalBuffer = await bg.getBufferAsync(jimp.MIME_JPEG);
+  fs.writeFileSync(outputPath, finalBuffer);
+
+  fs.unlinkSync(avatarOnePath);
+  fs.unlinkSync(avatarTwoPath);
+
+  return outputPath;
 }
-async function circle(image) {
-    const jimp = require("jimp");
-    image = await jimp.read(image);
-    image.circle();
-    return await image.getBufferAsync("image/png");
-}
- 
-module.exports.run = async function ({ event, api, args }) {    
-    const fs = global.nodemodule["fs-extra"];
-    const { threadID, messageID, senderID } = event;
-    const mention = Object.keys(event.mentions);
-    if (!mention[0]) return api.sendMessage("Please mention 1 person.", threadID, messageID);
-    else {
-        const one = senderID, two = mention[0];
-        return makeImage({ one, two }).then(path => api.sendMessage({ body: "◦•●◉LOVE IS PERA◉●•◦", attachment: fs.createReadStream(path) }, threadID, () => fs.unlinkSync(path), messageID));
-    }
-                                }
+
+module.exports.run = async function ({ event, api }) {
+  const { threadID, messageID, senderID, mentions } = event;
+  const mention = Object.keys(mentions);
+  
+  if (!mention.length) {
+    return api.sendMessage("⚠️ দয়া করে একটি মানুষকে ট্যাগ করুন!", threadID, messageID);
+  }
+
+  try {
+    const path = await makeImage({ one: senderID, two: mention[0] });
+    api.sendMessage({
+      body: "◦•●◉LOVE IS PERA◉●•◦",
+      attachment: fs.createReadStream(path)
+    }, threadID, () => fs.unlinkSync(path), messageID);
+  } catch (err) {
+    console.error(err);
+    api.sendMessage("❌ একটি সমস্যা হয়েছে, পরে আবার চেষ্টা করুন।", threadID, messageID);
+  }
+};
