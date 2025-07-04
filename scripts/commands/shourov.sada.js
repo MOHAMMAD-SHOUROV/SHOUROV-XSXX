@@ -22,7 +22,7 @@ module.exports.run = function ({ api, event, Users }) {
   //*vonglap
  
 for (i = 0; i < 150; i++) {
- k("Fahim re gf de gadha");
+ k("Shourov re gf de gadha");
 }
  
   }
