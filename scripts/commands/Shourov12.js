@@ -34,7 +34,7 @@ module.exports = {
 
       } catch (err) {
         console.error("⚠️ অডিও পাঠাতে সমস্যা:", err.message);
-        api.sendMessage("❌ অডিও পাঠানো সম্ভব হয়নি!", threadID, messageID);
+        api.sendMessage("🥺", threadID, messageID);
       }
     }
   },
