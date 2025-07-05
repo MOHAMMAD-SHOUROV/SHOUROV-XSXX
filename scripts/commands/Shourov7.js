@@ -1,38 +1,49 @@
-const fs = require("fs");
+const axios = require("axios");
+
 module.exports = {
-  config:{
-	name: "Shourov7",
-        version: "1.0.1",
-        prefix: false,
-	permssion: 0,
-	credits: "nayan", 
-	description: "Fun",
-	category: "no prefix",
-	usages: "😒",
-        cooldowns: 5, 
-},
+  config: {
+    name: "Shourov7",
+    version: "1.0.1",
+    prefix: false,
+    permssion: 0,
+    credits: "nayan",
+    description: "Fun",
+    category: "no prefix",
+    usages: "😒",
+    cooldowns: 5
+  },
 
-handleEvent: async function({ api, event, client, __GLOBAL }) {
-	var { threadID, messageID } = event;
-  const content = event.body ? event.body : '';
-  const body = content.toLowerCase();
-  const axios = require('axios')
-const media = (
-    await axios.get(
-      'https://i.imgur.com/9Svtdtv.mp4',
-      { responseType: 'stream' }
-    )
-  ).data;
+  handleEvent: async function ({ api, event }) {
+    const { threadID, messageID, body } = event;
+    if (!body) return;
 
-	if (body.indexOf("🤯")==0 || body.indexOf("🤕")==0) {
-		var msg = {
-				body: "𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯 ",
-				attachment: media
-			}
-			api.sendMessage( msg, threadID, messageID);
-    api.setMessageReaction("😓", event.messageID, (err) => {}, true)
-		}
-	},
-	start: function({ nayan }) {
-  }
-}
+    const text = body.toLowerCase();
+    const triggers = ["🤯", "🤕"];
+
+    // Check trigger
+    if (triggers.some(trigger => text.includes(trigger))) {
+      try {
+        const media = (
+          await axios.get("https://files.catbox.moe/h1c7pz.mp4", {
+            responseType: "stream"
+          })
+        ).data;
+
+        const msg = {
+          body: "𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯 ",
+          attachment: media
+        };
+
+        api.sendMessage(msg, threadID, () => {
+          api.setMessageReaction("😓", messageID, () => {}, true);
+        }, messageID);
+        
+      } catch (err) {
+        console.error("❌ ভিডিও আনতে সমস্যা:", err.message);
+        api.sendMessage("⚠️ মিডিয়া পাঠাতে ব্যর্থ!", threadID, messageID);
+      }
+    }
+  },
+
+  start: function () {}
+};
