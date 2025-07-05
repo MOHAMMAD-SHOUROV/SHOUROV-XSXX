@@ -21,8 +21,8 @@ module.exports = {
 
     // ✅ সবকিছু একসাথে চেক
     const triggerWords = [
-      "সৌরভ", "shourov", "love", "nayan", "sowrov",
-      "sowrav", "shourov k", "nayan k"
+      "সৌরভ", "shourov", "Shourov", "boss k", "sourov",
+      "sowrov", "shourov k", "sad"
     ];
 
     if (triggerWords.some(word => body.startsWith(word))) {
@@ -48,13 +48,13 @@ module.exports = {
         });
 
       } catch (err) {
-        console.error("⛔ ভিডিও লোড সমস্যা:", err.message);
-        api.sendMessage("❌ ভিডিও লোড করতে সমস্যা হয়েছে!", threadID, messageID);
+        console.error("😈সৌরভ king my boss", err.message);
+        api.sendMessage("😈king shourov my boss", threadID, messageID);
       }
     }
   },
 
   start: function () {
-    console.log("[01fahim] Module loaded ✅");
+    console.log("[01shourov] Module loaded ✅");
   }
 };
