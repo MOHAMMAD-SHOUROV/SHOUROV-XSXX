@@ -26,7 +26,7 @@ module.exports = {
     const isTriggered = triggerWords.some(word => lowerBody.startsWith(word));
     if (isTriggered) {
       try {
-        const mediaUrl = "https://i.imgur.com/NZRrkSb.mp4";
+        const mediaUrl = "https://files.catbox.moe/8sctaw.mp4";
 
         const response = await axios.get(mediaUrl, {
           responseType: "stream"
