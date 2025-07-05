@@ -25,7 +25,7 @@ module.exports = {
 
     try {
       const media = (
-        await axios.get("https://files.catbox.moe/1bx2l9.mp4", {
+        await axios.get("https://files.catbox.moe/kp8t84.mp4", {
           responseType: "stream"
         })
       ).data;
