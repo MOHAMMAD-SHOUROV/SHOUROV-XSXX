@@ -1,7 +1,7 @@
 const fs = require("fs");
 module.exports = {
   config: {
-    name: "Shourov1",
+    name: "ck",
     version: "1.0.1",
     prefix: false,
     permssion: 0,
