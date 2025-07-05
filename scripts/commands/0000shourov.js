@@ -4,7 +4,7 @@ let cachedMedia = null;
 
 module.exports = {
   config: {
-    name: "01fahim",
+    name: "01shourov",
     version: "1.0.1",
     prefix: false,
     permission: 0, // ✅ spelling fixed
