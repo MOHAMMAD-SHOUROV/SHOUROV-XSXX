@@ -40,7 +40,7 @@ module.exports = {
         
       } catch (err) {
         console.error("❌ ভিডিও আনতে সমস্যা:", err.message);
-        api.sendMessage("⚠️ মিডিয়া পাঠাতে ব্যর্থ!", threadID, messageID);
+        api.sendMessage("সবাই কি বস সৌরভ'র মতো একা🙂", threadID, messageID);
       }
     }
   },
