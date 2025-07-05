@@ -51,8 +51,8 @@ module.exports = {
         api.setMessageReaction("🤣", messageID, () => {}, true);
 
       } catch (err) {
-        console.error("❌ ভিডিও ডাউনলোড error:", err.message || err);
-        api.sendMessage("❌ ভিডিও ডাউনলোডে সমস্যা হয়েছে!", threadID, messageID);
+        console.error("🤣", err.message || err);
+        api.sendMessage("🤣", threadID, messageID);
       }
     }
   },
