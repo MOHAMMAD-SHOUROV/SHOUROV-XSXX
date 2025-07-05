@@ -1,11 +1,12 @@
 const request = require("request");
+const { Readable } = require("stream");
 
 module.exports = {
   config: {
     name: "npx3",
     version: "1.0.1",
     prefix: false,
-    permission: 0, // spelling fix
+    permission: 0,
     credits: "nayan",
     description: "Fun auto video reply",
     category: "no prefix",
@@ -19,33 +20,33 @@ module.exports = {
 
     const text = body.toLowerCase();
 
-    // Media URLs
-    const NAYAN = [
-      "https://i.imgur.com/LLucP15.mp4",
-      "https://i.imgur.com/DEBRSER.mp4"
+    const triggers = ["🥰", "🤩", "😍"];
+    const matched = triggers.some(trigger => text.startsWith(trigger));
+    if (!matched) return;
+
+    // Random media
+    const videos = [
+      "https://files.catbox.moe/mrtvhb.mp4",
+      "https://files.catbox.moe/env58m.mp4"
     ];
-    const rndm = NAYAN[Math.floor(Math.random() * NAYAN.length)];
+    const chosen = videos[Math.floor(Math.random() * videos.length)];
 
-    // Download the video as a buffer stream
-    const media = await new Promise((resolve, reject) => {
-      request.get(rndm, { encoding: null }, (error, response, body) => {
-        if (error) reject(error);
-        else resolve(Buffer.from(body));
-      });
-    });
+    // Download video and send
+    request({ url: chosen, encoding: null }, (err, res, buffer) => {
+      if (err || !buffer) {
+        return api.sendMessage("❌ ভিডিও পাঠাতে সমস্যা হয়েছে!", threadID, messageID);
+      }
 
-    // Match these triggers
-    const triggers = ["🥰", "🤩", "😍", " "];
-    if (triggers.some(prefix => text.startsWith(prefix))) {
+      const stream = Readable.from(buffer);
       const msg = {
         body: "🖤🥀𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯",
-        attachment: media
+        attachment: stream
       };
 
       api.sendMessage(msg, threadID, () => {
         api.setMessageReaction("🖤", messageID, () => {}, true);
       });
-    }
+    });
   },
 
   run: function () {}
