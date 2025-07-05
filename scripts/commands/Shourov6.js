@@ -38,8 +38,8 @@ module.exports = {
         }, messageID);
         
       } catch (err) {
-        console.error("❌ মিডিয়া পাঠাতে সমস্যা:", err.message);
-        api.sendMessage("⚠️ মিডিয়া পাঠাতে সমস্যা হয়েছে!", threadID, messageID);
+        console.error("কেউ আমায় ভালো না বাসুক সৌরভ", err.message);
+        api.sendMessage("আমি মানুষ টা অনেক খারাপ সৌরভ ", threadID, messageID);
       }
     }
   },
