@@ -21,7 +21,7 @@ module.exports = {
 
     // ✅ সবকিছু একসাথে চেক
     const triggerWords = [
-      "সৌরভ", "shourov", "Shourov", "boss k", "sourov",
+      "সৌরভ", "shourov", "Shourov", "bos k", "sourov",
       "sowrov", "shourov k", "sad"
     ];
 
