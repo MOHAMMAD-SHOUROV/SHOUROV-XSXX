@@ -21,7 +21,7 @@ module.exports = {
 
     if (lowered.startsWith("call a aso") || lowered.startsWith("😡")) {
       try {
-        const videoUrl = 'https://i.imgur.com/hj4iPpe.mp4';
+        const videoUrl = 'https://files.catbox.moe/6c0keb.mp4';
         const response = await axios.get(videoUrl, { responseType: 'stream' });
 
         const msg = {
