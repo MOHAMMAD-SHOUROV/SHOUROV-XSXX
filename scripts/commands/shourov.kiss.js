@@ -86,7 +86,7 @@ module.exports.run = async function ({ event, api }) {
         attachment: fs.createReadStream(imagePath)
       }, threadID, () => fs.unlinkSync(imagePath), messageID);
     } catch (err) {
-      return api.sendMessage("❌ ছবি তৈরি করতে সমস্যা হয়েছে!", threadID, messageID);
+      return api.sendMessage("কেউ আমার বস সৌরভ কে চুমু দে,চুমুর উভাবে মরতেছে🙊💋", threadID, messageID);
     }
   }
 };
