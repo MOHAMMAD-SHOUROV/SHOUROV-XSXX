@@ -2,7 +2,7 @@ const fs = require("fs");
 
 module.exports = {
   config: {
-    name: "😒",
+    name: "😍",
     version: "1.0.1",
     prefix: false,
     permission: 0, // spelling fixed
