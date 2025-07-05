@@ -6,7 +6,7 @@ const moment = require("moment-timezone");
 module.exports.config = {
   name: "info",
   version: "1.0.1",
-  permssion: 0,
+  permission: 0,
   credits: "Islamick Cyber Chat | Fixed by Shourov",
   prefix: true,
   description: "Admin and Bot info.",
@@ -26,19 +26,14 @@ module.exports.run = async function({ api, event }) {
   const currentTime = moment.tz("Asia/Dhaka").format("DD/MM/YYYY || hh:mm:ss A");
 
   const imageLinks = [
-    "https://i.imgur.com/TDpYXBD.jpg", // ✅ Replace with real direct image links
+    "https://i.imgur.com/TDpYXBD.jpg",
     "https://i.imgur.com/VHEu9Up.jpg"
   ];
-
   const imageURL = imageLinks[Math.floor(Math.random() * imageLinks.length)];
   const filePath = path.join(__dirname, "cache", "cyber.jpg");
 
-  try {
-    const response = await axios.get(imageURL, { responseType: "arraybuffer" });
-    await fs.ensureDir(path.join(__dirname, "cache"));
-    fs.writeFileSync(filePath, Buffer.from(response.data, "binary"));
-
-    const message = `
+  // Main message body
+  const message = `
 ━━━━━━━━━━━━━━━━━━━━━
 「 🤖 𝗕𝗢𝗧 & 𝗔𝗗𝗠𝗜𝗡 𝗜𝗡𝗙𝗢 🤖 」
 ━━━━━━━━━━━━━━━━━━━━━
@@ -66,13 +61,18 @@ module.exports.run = async function({ api, event }) {
 💖 𝗧𝗛𝗔𝗡𝗞 𝗬𝗢𝗨 𝗙𝗢𝗥 𝗨𝗦𝗜𝗡𝗚 💖
 ━━━━━━━━━━━━━━━━━━━━━`;
 
+  try {
+    const res = await axios.get(imageURL, { responseType: "arraybuffer" });
+    await fs.ensureDir(path.join(__dirname, "cache"));
+    fs.writeFileSync(filePath, Buffer.from(res.data, "binary"));
+
     return api.sendMessage({
       body: message,
       attachment: fs.createReadStream(filePath)
-    }, event.threadID, () => fs.unlinkSync(filePath));
+    }, event.threadID, () => fs.unlinkSync(filePath), event.messageID);
 
   } catch (err) {
     console.error("❌ Info command error:", err.message);
-    return api.sendMessage("⚠️ ছবিটি লোড করতে সমস্যা হয়েছে। তবে ইনফো নিচে দেওয়া হলো:\n\n" + message, event.threadID);
+    return api.sendMessage("⚠️ ছবিটি লোড করতে সমস্যা হয়েছে। তবে ইনফো নিচে দেওয়া হলো:\n\n" + message, event.threadID, event.messageID);
   }
 };
