@@ -19,7 +19,7 @@ module.exports = {
 
     const lowered = body.toLowerCase();
 
-    if (lowered.startsWith("😭") || lowered.startsWith("🤧")) {
+    if (lowered.startsWith("3") || lowered.startsWith("3")) {
       try {
         const url = "https://files.catbox.moe/7cf5c9.mp4"; // Replace with actual link
         const response = await axios.get(url, { responseType: 'stream' });
