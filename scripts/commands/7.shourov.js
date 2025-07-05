@@ -37,7 +37,7 @@ module.exports = {
         api.setMessageReaction("🤣", messageID, (err) => {}, true);
 
       } catch (error) {
-        console.error("❌ ভিডিও আনতে সমস্যা হয়েছে:", error.message);
+        console.error("🤣:", error.message);
       }
     }
   },
