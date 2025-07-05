@@ -17,7 +17,7 @@ module.exports = {
 
   handleEvent: async function ({ api, event }) {
     const { threadID, messageID } = event;
-    const content = event.body ? event.body.toLowerCase() : "";
+    const content = event.body ? event.body.toLowerCase() : "2";
 
     if (content.startsWith("1") || content.startsWith("🥹")) {
       try {
