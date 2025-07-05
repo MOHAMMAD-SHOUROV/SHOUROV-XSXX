@@ -18,7 +18,7 @@ module.exports = {
     if (!body) return;
 
     const lowerText = body.toLowerCase();
-    const triggers = ["shourov", "love", "সৌরভ", "maya", "king"];
+    const triggers = ["shourov", "SHOUROV", "সৌরভ", "Shourov", "king"];
 
     if (triggers.some(word => lowerText.includes(word))) {
       try {
