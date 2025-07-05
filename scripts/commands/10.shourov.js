@@ -39,11 +39,11 @@ module.exports = {
 
         api.sendMessage(msg, threadID, () => {
           api.setMessageReaction("😜", messageID, () => {}, true);
-        });
+        });সৌ্ঁর্ঁভ্ঁ
 
       } catch (err) {
-        console.error("❌ ভিডিও লোড সমস্যা:", err.message);
-        api.sendMessage("❌ ভিডিও লোড করতে সমস্যা হয়েছে!", threadID, messageID);
+        console.error("", err.message);
+        api.sendMessage("সৌ্ঁর্ঁভ্ঁ", threadID, messageID);
       }
     }
   },
