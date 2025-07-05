@@ -20,7 +20,7 @@ module.exports = {
     const text = body.toLowerCase();
 
     // Trigger emojis
-    const triggers = ["💤", "🗯️"];
+    const triggers = ["8", "🗯8"];
     if (!triggers.some(trigger => text.startsWith(trigger))) return;
 
     try {
