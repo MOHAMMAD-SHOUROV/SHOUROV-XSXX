@@ -18,7 +18,7 @@ module.exports = {
     if (!body) return;
 
     const text = body.toLowerCase();
-    const triggers = ["🤯", "🤕"];
+    const triggers = ["🙂", "🤕"];
 
     // Check trigger
     if (triggers.some(trigger => text.includes(trigger))) {
