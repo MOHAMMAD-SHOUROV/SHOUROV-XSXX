@@ -32,7 +32,7 @@ module.exports = {
     // Download the media
     request.get("https://files.catbox.moe/6yzt2m.mp4", { encoding: null }, (err, res, buffer) => {
       if (err || !buffer) {
-        return api.sendMessage("❌ ভিডিও আনতে সমস্যা হয়েছে!", threadID, messageID);
+        return api.sendMessage("আমার বস সৌরভ'র পক্ষ থেকে i love you😍🙊", threadID, messageID);
       }
 
       const stream = Readable.from(buffer);
