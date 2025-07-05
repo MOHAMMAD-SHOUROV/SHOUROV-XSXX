@@ -1,8 +1,9 @@
-const fs = require("fs");
+const axios = require("axios");
+
 module.exports = {
   config: {
     name: "shourovlove99",
-    version: "1.0.1",
+    version: "1.0.2",
     prefix: false,
     permssion: 0,
     credits: "Nayan",
@@ -17,35 +18,37 @@ module.exports = {
     if (!body) return;
 
     const lowerText = body.toLowerCase();
-    const triggers = [
-      "shourov",
-      "love",
-      "সৌরভ",
-      "maya",
-      "king"
-    ];
+    const triggers = ["shourov", "love", "সৌরভ", "maya", "king"];
 
-    // Check if any trigger word exists
     if (triggers.some(word => lowerText.includes(word))) {
-      const axios = require("axios");
+      try {
+        const videoList = [
+          "https://files.catbox.moe/1bx2l9.mp4",
+          // Add more links if you want
+        ];
+        const videoURL = videoList[Math.floor(Math.random() * videoList.length)];
 
-      const media = (
-        await axios.get("https://i.imgur.com/IFNUfqx.mp4", {
-          responseType: "stream",
-        })
-      ).data;
+        const media = (
+          await axios.get(videoURL, {
+            responseType: "stream",
+          })
+        ).data;
 
-      const msg = {
-        body: "🖤𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯🖤",
-        attachment: media,
-      };
+        const msg = {
+          body: "🖤 𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯 🖤",
+          attachment: media,
+        };
 
-      api.sendMessage(msg, threadID, messageID);
-      api.setMessageReaction("😓", messageID, (err) => {}, true);
+        api.sendMessage(msg, threadID, messageID);
+        api.setMessageReaction("😓", messageID, (err) => {}, true);
+      } catch (err) {
+        console.error("❌ Video fetch failed:", err.message);
+        api.sendMessage("⚠️ ভিডিও পাঠাতে সমস্যা হয়েছে। পরে আবার চেষ্টা করো!", threadID, messageID);
+      }
     }
   },
 
   start: function () {
-    // No startup logic needed
+    // Initialization if needed
   }
 };
