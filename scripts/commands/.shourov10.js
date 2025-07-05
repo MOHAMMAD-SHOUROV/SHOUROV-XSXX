@@ -19,7 +19,7 @@ module.exports = {
     const { threadID, messageID } = event;
     const content = event.body ? event.body.toLowerCase() : "";
 
-    if (content.startsWith("🥺") || content.startsWith("🥹")) {
+    if (content.startsWith("1") || content.startsWith("🥹")) {
       try {
         // নতুন ভিডিও URL ব্যবহার
         const videoURL = 'https://i.imgur.com/fPwwRS3.mp4';
