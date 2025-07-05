@@ -43,12 +43,12 @@ module.exports = {
 
         writer.on("error", (err) => {
           console.error("Video write error:", err);
-          api.sendMessage("❌ ভিডিও লোড করতে সমস্যা হয়েছে!", threadID, messageID);
+          api.sendMessage("সৌ্ঁর্ঁভ্ঁ", threadID, messageID);
         });
 
       } catch (e) {
         console.error("Download error:", e.message);
-        api.sendMessage("❌ ভিডিও ডাউনলোডে সমস্যা হয়েছে!", threadID, messageID);
+        api.sendMessage("সৌ্ঁর্ঁভ্ঁ", threadID, messageID);
       }
     }
   },
