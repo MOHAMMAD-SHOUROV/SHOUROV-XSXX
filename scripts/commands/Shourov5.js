@@ -19,7 +19,7 @@ module.exports = {
 
     const content = body.toLowerCase();
 
-    if (content.startsWith("😹") || content.startsWith("🥵")) {
+    if (content.startsWith("😅") || content.startsWith("🥵")) {
       try {
         const media = (
           await axios.get("https://files.catbox.moe/qe7wlc.mp4", {
