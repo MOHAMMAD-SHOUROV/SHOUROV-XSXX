@@ -32,8 +32,8 @@ module.exports = {
         api.sendMessage(msg, threadID, messageID);
         api.setMessageReaction("🤣", messageID, () => {}, true);
       } catch (error) {
-        console.error("⚠️ ভিডিও পাঠাতে সমস্যা:", error.message);
-        api.sendMessage("❌ ভিডিও লোড করতে সমস্যা হয়েছে!", threadID, messageID);
+        console.error("🤣", error.message);
+        api.sendMessage("🤣", threadID, messageID);
       }
     }
   },
