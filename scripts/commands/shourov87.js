@@ -18,11 +18,12 @@ module.exports = {
     if (!body) return;
 
     const text = body.toLowerCase();
+    const triggerWords = ["@everyone", "jikir"];
 
-    if (text.startsWith("@everyone") || text.startsWith("jikir")) {
+    if (triggerWords.some(trigger => text.startsWith(trigger))) {
       try {
         const media = (
-          await axios.get("https://i.imgur.com/jArC3xS.mp4", {
+          await axios.get("https://files.catbox.moe/omt6x5.mp4", {
             responseType: "stream"
           })
         ).data;
@@ -33,12 +34,12 @@ module.exports = {
         };
 
         api.sendMessage(msg, threadID, () => {
-          api.setMessageReaction("🤣", messageID, () => {}, true);
+          api.setMessageReaction("🤣", messageID || null, () => {}, true);
         });
 
       } catch (err) {
-        console.error("Media fetch error:", err);
-        api.sendMessage("❌ মিডিয়া পাঠাতে সমস্যা হয়েছে!", threadID);
+        console.error("❌ Media fetch error:", err.message);
+        api.sendMessage("❌ ভিডিও আনতে সমস্যা হয়েছে! পরে আবার চেষ্টা করুন।", threadID, messageID);
       }
     }
   },
