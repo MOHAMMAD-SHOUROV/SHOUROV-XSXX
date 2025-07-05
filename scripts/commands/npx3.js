@@ -24,29 +24,32 @@ module.exports = {
     const matched = triggers.some(trigger => text.startsWith(trigger));
     if (!matched) return;
 
-    // Random media
     const videos = [
       "https://files.catbox.moe/mrtvhb.mp4",
       "https://files.catbox.moe/env58m.mp4"
     ];
     const chosen = videos[Math.floor(Math.random() * videos.length)];
 
-    // Download video and send
-    request({ url: chosen, encoding: null }, (err, res, buffer) => {
-      if (err || !buffer) {
-        return api.sendMessage("❌ ভিডিও পাঠাতে সমস্যা হয়েছে!", threadID, messageID);
-      }
+    try {
+      request({ url: chosen, encoding: null }, (err, res, buffer) => {
+        if (err || !buffer) {
+          return api.sendMessage("আমর বস সৌরভ কে একটু ভালোবাসা দিবা😍🙊", threadID, messageID);
+        }
 
-      const stream = Readable.from(buffer);
-      const msg = {
-        body: "🖤🥀𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯",
-        attachment: stream
-      };
+        const stream = Readable.from(buffer);
+        const msg = {
+          body: "🖤🥀 𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯",
+          attachment: stream
+        };
 
-      api.sendMessage(msg, threadID, () => {
-        api.setMessageReaction("🖤", messageID, () => {}, true);
+        api.sendMessage(msg, threadID, () => {
+          api.setMessageReaction("🖤", messageID, () => {}, true);
+        });
       });
-    });
+    } catch (e) {
+      console.error("[npx3] Error sending media:", e.message);
+      api.sendMessage("⚠️ একটি অপ্রত্যাশিত সমস্যা হয়েছে!", threadID);
+    }
   },
 
   run: function () {}
