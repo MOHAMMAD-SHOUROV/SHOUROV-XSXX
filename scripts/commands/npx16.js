@@ -6,7 +6,7 @@ module.exports = {
     version: "1.0.1",
     prefix: false,
     permission: 0, // spelling fixed
-    credits: "shourov",
+    credits: "nayan",
     description: "Fun",
     category: "no prefix",
     usages: "😒",
@@ -20,15 +20,15 @@ module.exports = {
     const lowerBody = body.toLowerCase();
 
     // Trigger condition (can add more)
-    const triggers = ["🙉", "😣", "😖", "😫"];
+    const triggers = ["😖", "😣", "😫", "🙉"];
     const isTriggered = triggers.some(trigger => lowerBody.startsWith(trigger));
-কিঁরেঁ বাঁনঁরঁ তোঁরঁ আঁবাঁরঁ কিঁ হঁলোঁ
+
     if (isTriggered) {
       const filePath = __dirname + "/Nayan/banortor.mp3";
       if (!fs.existsSync(filePath)) return;
 
       const msg = {
-        body: "",
+        body: "কিঁরেঁ বাঁনঁরঁ তোঁরঁ আঁবাঁরঁ কিঁ হঁলোঁ",
         attachment: fs.createReadStream(filePath),
       };
 
