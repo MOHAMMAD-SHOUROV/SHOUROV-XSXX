@@ -28,7 +28,7 @@ module.exports = {
       if (!fs.existsSync(filePath)) return;
 
       const msg = {
-        body: "এত রাগ দেখাও কেন মাথায় হিসু করে দিবো কিন্তু",
+        body: "আঁমিঁ বঁলুঁমঁ নাঁ আঁমাঁরঁ সঁরঁমঁ কঁরেঁ",
         attachment: fs.createReadStream(filePath),
       };
 
