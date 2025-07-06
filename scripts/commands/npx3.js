@@ -20,7 +20,7 @@ module.exports = {
 
     const text = body.toLowerCase();
 
-    const triggers = ["🥰", "🤩", "😍"];
+    const triggers = ["10", "10", "10"];
     const matched = triggers.some(trigger => text.startsWith(trigger));
     if (!matched) return;
 
