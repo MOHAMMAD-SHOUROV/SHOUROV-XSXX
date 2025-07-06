@@ -2,7 +2,7 @@ const fs = require("fs");
 
 module.exports = {
   config: {
-    name: "😡",
+    name: "🤬",
     version: "1.0.1",
     prefix: false,
     permission: 0, // spelling fixed
@@ -20,15 +20,15 @@ module.exports = {
     const lowerBody = body.toLowerCase();
 
     // Trigger condition (can add more)
-    const triggers = ["😡", "🤬", "👺", "😾"];
+    const triggers = ["😡", "😠", "😤", "😾"];
     const isTriggered = triggers.some(trigger => lowerBody.startsWith(trigger));
 
     if (isTriggered) {
-      const filePath = __dirname + "/Nayan/এত রাগ দেখাস কেন মাথ.m4a";
+      const filePath = __dirname + "/Nayan/ragkoro.mp3";
       if (!fs.existsSync(filePath)) return;
 
       const msg = {
-        body: "এত রাগ দেখাও কেন মাথায় হিসু করে দিবো কিন্তু",
+        body: "রাঁগঁ কঁরোঁ কেঁনোঁ গোঁ",
         attachment: fs.createReadStream(filePath),
       };
 
