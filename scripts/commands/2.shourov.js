@@ -1,78 +1,47 @@
-const axios = require("axios");
-const fs = require("fs-extra");
-const path = require("path");
-const moment = require("moment-timezone");
-
 module.exports.config = {
-  name: "info",
-  version: "1.0.1",
-  permission: 0,
-  credits: "Islamick Cyber Chat | Fixed by Shourov",
-  prefix: true,
-  description: "Admin and Bot info.",
-  category: "system",
-  cooldowns: 1,
-  dependencies: {
-    "axios": "",
-    "fs-extra": ""
+    name: "info",
+    version: "1.0.0",
+    permission: 0,
+    credits: "nayan",
+    prefix: true,
+    description: "",
+    category: "prefix",
+    usages: "",
+    cooldowns: 5,
+    dependencies: 
+	{
+    "request":"",
+    "fs-extra":"",
+    "axios":""
   }
 };
-
-module.exports.run = async function({ api, event }) {
-  const time = process.uptime();
-  const hours = Math.floor(time / (60 * 60));
-  const minutes = Math.floor((time % (60 * 60)) / 60);
-  const seconds = Math.floor(time % 60);
-  const currentTime = moment.tz("Asia/Dhaka").format("DD/MM/YYYY || hh:mm:ss A");
-
-  const imageLinks = [
-    "https://i.imgur.com/TDpYXBD.jpg",
-    "https://i.imgur.com/VHEu9Up.jpg"
-  ];
-  const imageURL = imageLinks[Math.floor(Math.random() * imageLinks.length)];
-  const filePath = path.join(__dirname, "cache", "cyber.jpg");
-
-  // Main message body
-  const message = `
-━━━━━━━━━━━━━━━━━━━━━
-「 🤖 𝗕𝗢𝗧 & 𝗔𝗗𝗠𝗜𝗡 𝗜𝗡𝗙𝗢 🤖 」
-━━━━━━━━━━━━━━━━━━━━━
-
-👑 𝗕𝗢𝗧 𝗡𝗔𝗠𝗘: ${global.config.BOTNAME || "SHOUROV BOT"}
-👤 𝗔𝗗𝗠𝗜𝗡: 𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯
-📍 𝗟𝗢𝗖𝗔𝗧𝗜𝗢𝗡: Dhaka, Bangladesh
-
-━━━━━━━━━━━━━━━━━━━━━
-🔗 𝗖𝗢𝗡𝗧𝗔𝗖𝗧
-━━━━━━━━━━━━━━━━━━━━━
-
-🌐 𝗙𝗕 𝗜𝗗: https://facebook.com/broken.shourov.ss
-📞 𝗣𝗔𝗚𝗘: N/A
-
-━━━━━━━━━━━━━━━━━━━━━
-⚙️ 𝗦𝗬𝗦𝗧𝗘𝗠 𝗦𝗧𝗔𝗧𝗨𝗦
-━━━━━━━━━━━━━━━━━━━━━
-
-📌 𝗣𝗥𝗘𝗙𝗜𝗫: ${global.config.PREFIX || "!"}
-🕒 𝗨𝗣𝗧𝗜𝗠𝗘: ${hours}h ${minutes}m ${seconds}s
-📆 𝗧𝗜𝗠𝗘: ${currentTime}
-
-━━━━━━━━━━━━━━━━━━━━━
-💖 𝗧𝗛𝗔𝗡𝗞 𝗬𝗢𝗨 𝗙𝗢𝗥 𝗨𝗦𝗜𝗡𝗚 💖
-━━━━━━━━━━━━━━━━━━━━━`;
-
-  try {
-    const res = await axios.get(imageURL, { responseType: "arraybuffer" });
-    await fs.ensureDir(path.join(__dirname, "cache"));
-    fs.writeFileSync(filePath, Buffer.from(res.data, "binary"));
-
-    return api.sendMessage({
-      body: message,
-      attachment: fs.createReadStream(filePath)
-    }, event.threadID, () => fs.unlinkSync(filePath), event.messageID);
-
-  } catch (err) {
-    console.error("❌ Info command error:", err.message);
-    return api.sendMessage("⚠️ ছবিটি লোড করতে সমস্যা হয়েছে। তবে ইনফো নিচে দেওয়া হলো:\n\n" + message, event.threadID, event.messageID);
-  }
-};
+module.exports.run = async function({ api,event,args,client,Users,Threads,__GLOBAL,Currencies }) {
+const axios = global.nodemodule["axios"];
+const request = global.nodemodule["request"];
+const fs = global.nodemodule["fs-extra"];
+const time = process.uptime(),
+		hours = Math.floor(time / (60 * 60)),
+		minutes = Math.floor((time % (60 * 60)) / 60),
+		seconds = Math.floor(time % 60);
+const moment = require("moment-timezone");
+var juswa = moment.tz("Asia/Dhaka").format("『D/MM/YYYY』 【hh:mm:ss】");
+  
+var callback = () => api.sendMessage({body:`
+--------------------------------------------
+𝐍𝐚𝐦𝐞       : 𝐊𝐈𝐍𝐆 𝐒𝐇𝐎𝐔𝐑𝐎𝐕
+𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤 : 𝐊𝐈𝐍𝐆 𝐒𝐇𝐎𝐔𝐑𝐎𝐕
+𝐑𝐞𝐥𝐢𝐠𝐢𝐨𝐧   : 𝐈𝐬𝐥𝐚𝐦
+𝐏𝐞𝐫𝐦𝐚𝐧𝐞𝐧𝐭 𝐀𝐝𝐝𝐫𝐞𝐬𝐬: Panchagarh, 𝐃𝐡𝐚𝐤𝐚
+𝐂𝐮𝐫𝐫𝐞𝐧𝐭 𝐀𝐝𝐝𝐫𝐞𝐬𝐬: , 𝐃𝐡𝐚𝐤𝐚
+𝐆𝐞𝐧𝐝𝐞𝐫.   : 𝐌𝐚𝐥𝐞
+𝐀𝐠𝐞           : 𝟏+
+𝐑𝐞𝐥𝐚𝐭𝐢𝐨𝐧𝐬𝐡𝐢𝐩 : 𝐒𝐢𝐧𝐠𝐥𝐞
+𝐖𝐨𝐫𝐤        : 𝐒𝐭𝐮𝐝𝐞𝐧𝐭
+𝐆𝐦𝐚𝐢𝐥       : shourovislam5430@gmail.com
+𝐖𝐡𝐚𝐭𝐬𝐀𝐩𝐩: wa.me/+8801709281334
+𝐓𝐞𝐥𝐞𝐠𝐫𝐚𝐦  : 
+𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤 𝐋𝐢𝐧𝐤 : https://www.facebook.com/www.xsxx.com365`,attachment: fs.createReadStream(__dirname + "/cache/1.png")}, event.threadID, () => 
+    fs.unlinkSync(__dirname + "/cache/1.png"));  
+      return request(encodeURI(`https://i.postimg.cc/kXFmkXL3/1748717070130.jpg`)).pipe(
+fs.createWriteStream(__dirname+'/cache/1.png')).on('close',() => callback());
+   };
