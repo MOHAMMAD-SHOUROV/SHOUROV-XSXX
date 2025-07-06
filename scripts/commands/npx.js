@@ -20,7 +20,7 @@ module.exports = {
     const lowerBody = body.toLowerCase();
 
     // Trigger condition (can add more)
-    const triggers = ["😒", "tui", "bash", "boring"];
+    const triggers = ["😒", "🙄", "😳", "👀", "👁️"];
     const isTriggered = triggers.some(trigger => lowerBody.startsWith(trigger));
 
     if (isTriggered) {
