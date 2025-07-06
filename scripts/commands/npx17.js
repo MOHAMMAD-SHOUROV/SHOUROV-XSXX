@@ -2,11 +2,11 @@ const fs = require("fs");
 
 module.exports = {
   config: {
-    name: "🤣",
+    name: "😹",
     version: "1.0.1",
     prefix: false,
     permission: 0, // spelling fixed
-    credits: "shourov",
+    credits: "nayan",
     description: "Fun",
     category: "no prefix",
     usages: "😒",
@@ -20,15 +20,15 @@ module.exports = {
     const lowerBody = body.toLowerCase();
 
     // Trigger condition (can add more)
-    const triggers = ["🤣", "😂", "😹", "😸", "😁"];
+    const triggers = ["😹", "😂", "😸", "😁"];
     const isTriggered = triggers.some(trigger => lowerBody.startsWith(trigger));
 
     if (isTriggered) {
       const filePath = __dirname + "/Nayan/pagolnaki.mp3";
-      if (!fs.(filePath)) return;
+      if (!fs.existsSync(filePath)) return;
 
       const msg = {
-        body: " পাঁগঁলঁ নাঁকিঁ এঁভাঁবেঁ কেঁউঁ হাঁসেঁ",
+        body: "পাঁগঁলঁ নাঁকিঁ এঁভাঁবেঁ কেঁউঁ হাঁসেঁ",
         attachment: fs.createReadStream(filePath),
       };
 
