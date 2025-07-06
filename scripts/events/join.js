@@ -1,1 +1,199 @@
-const _0x1d32af=_0x1814;(function(_0xb71ba,_0x2bf08b){const _0x186cbf=_0x1814,_0x314462=_0xb71ba();while(!![]){try{const _0x200a3f=-parseInt(_0x186cbf(0x1ce))/0x1+-parseInt(_0x186cbf(0x1f6))/0x2*(-parseInt(_0x186cbf(0x201))/0x3)+parseInt(_0x186cbf(0x22b))/0x4+-parseInt(_0x186cbf(0x223))/0x5*(parseInt(_0x186cbf(0x1e7))/0x6)+-parseInt(_0x186cbf(0x1de))/0x7*(-parseInt(_0x186cbf(0x22d))/0x8)+parseInt(_0x186cbf(0x222))/0x9*(-parseInt(_0x186cbf(0x1d1))/0xa)+-parseInt(_0x186cbf(0x207))/0xb;if(_0x200a3f===_0x2bf08b)break;else _0x314462['push'](_0x314462['shift']());}catch(_0x522bba){_0x314462['push'](_0x314462['shift']());}}}(_0x1cb5,0x9ff5a),module[_0x1d32af(0x221)]['config']={'name':'join','eventType':[_0x1d32af(0x220)],'version':'1.0.0','credits':'Mirai-Team','description':_0x1d32af(0x215)});const fs=require('fs-extra'),{loadImage,createCanvas,registerFont}=require(_0x1d32af(0x239)),request=require(_0x1d32af(0x1f4)),axios=require(_0x1d32af(0x210)),jimp=require(_0x1d32af(0x1db)),fontlink=_0x1d32af(0x1df);let PRFX=''+global[_0x1d32af(0x1d5)]['PREFIX'];function _0x1cb5(){const _0x1898a3=['Wednesday','createReadStream','10075758wWGNZA','textAlign','height','You\x20are\x20the\x20','threadData','isArray','senderID','noon','Sunday','axios','evening','error','author','undefined','GROUP\x20UPDATE\x20NOTIFICATION','random','help\x0aSee\x20command👉\x20','tik\x20(link)\x0a','join','addedParticipants','fullName','floor','https://i.postimg.cc/SNQXkB0y/lv-0-20231018174834.gif','155px\x20Semi','Early\x20morning','log:subscribe','exports','10449nwFQin','2061945IEYfSV','format','length','threadID','save','clearRect','fillText','Tuesday','1338080AEoRNS','image/png','9670712ykYawu','utf-8','from','\x20]\x20•\x20➠','BOTNAME','replace','restore','toString','read','Asia/dhaka','drawImage','Friday','canvas','push','Welcome\x20to\x20','Hello\x20{name}\x0aWelcome\x20to\x20{threadName}\x0ayou\x27re\x20the\x20{soThanhVien}th\x20member\x20on\x20this\x20group\x20please\x20enjoy\x22\x0a─────────────────\x0a[\x20{time}\x20-\x20{thu}\x20]','changeNickname','admin\x20(information)\x0a','data','getContext','88053WIidgA','PREFIX','dddd','470EmhYkZ','afternoon','getNameUser','catch','config','center','75px\x20Semi','getCurrentUserID','.png','font','jimp','threadName','width','7sAHVLT','https://drive.google.com/u/0/uc?id=10XFWm9F6u2RKnuVIfwoEdlav2HhkAUIB&export=download','/Nayan/font/Semi.ttf','fbvideo\x20(link)\x0a\x0a<------------------------------>\x0a\x0aAND\x20FOR\x20ANY\x20COMPLAINTS\x20OR\x20CONTACT\x20BOT\x20OPERATOR\x20\x0a\x0aDEVELOPER\x20:𝐊𝐈𝐍𝐆\x20𝐒𝐇𝐎𝐔𝐑𝐎𝐕\x20\x0a\x0a🟣Facebook\x20Account\x20Link:\x20\x0a\x0ahttps://www.facebook.com/www.xsxx.com365\x0a\x0a🔵WHATSAPP\x20NUMBER:\x20wa.me/+8801709281334\x0a\x0a🟢SUPPORT\x20EMAIL:\x20www.shourovislam5430@gmail.com','moment-timezone','get','logMessageData','userFbId','getThreadInfo','6YBbXLc','sort','Monday','getTime','You','run','midnight','arraybuffer','Semi','https://graph.facebook.com/','some','bot','client','request','circle','36jSjHxB','log','getBufferAsync','sendMessage','\x20member\x20of\x20this\x20group','https://imgur.com/a/07L7UdX','command\x0a\x0a\x0aEXAMPLE:👇\x0a','Thursday','/Nayan/join/','existsSync','/picture?height=720&width=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662','97137IhfEVy','HH:mm:ss\x20-\x20DD/MM/YYYY','writeFileSync','customJoin'];_0x1cb5=function(){return _0x1898a3;};return _0x1cb5();}function _0x1814(_0x323d73,_0x272d0b){const _0x1cb588=_0x1cb5();return _0x1814=function(_0x1814a2,_0x123abc){_0x1814a2=_0x1814a2-0x1ce;let _0x20b7e4=_0x1cb588[_0x1814a2];return _0x20b7e4;},_0x1814(_0x323d73,_0x272d0b);}module[_0x1d32af(0x221)][_0x1d32af(0x1f5)]=async _0x12e5c5=>{const _0x2f7f06=_0x1d32af;return _0x12e5c5=await jimp[_0x2f7f06(0x235)](_0x12e5c5),_0x12e5c5[_0x2f7f06(0x1f5)](),await _0x12e5c5[_0x2f7f06(0x1f8)](_0x2f7f06(0x22c));};let suffix;module['exports'][_0x1d32af(0x1ec)]=async function({api:_0x2d5fa1,event:_0x267e6e,Users:_0x1bb6cf}){const _0x269fd8=_0x1d32af;var _0x4188fc=global[_0x269fd8(0x1f3)]['getTime']('fullYear'),_0x3c4575=await global['client'][_0x269fd8(0x1ea)]('hours'),_0x2036ed=''+(_0x3c4575<0x3?_0x269fd8(0x1ed):_0x3c4575<0x8?_0x269fd8(0x21f):_0x3c4575<0xc?_0x269fd8(0x20e):_0x3c4575<0x11?_0x269fd8(0x1d2):_0x3c4575<0x17?_0x269fd8(0x211):_0x269fd8(0x1ed));const _0x3b9e8d=require(_0x269fd8(0x1e2));var _0x8461ad=_0x3b9e8d['tz'](_0x269fd8(0x236))[_0x269fd8(0x224)](_0x269fd8(0x1d0));if(_0x8461ad==_0x269fd8(0x20f))_0x8461ad=_0x269fd8(0x20f);if(_0x8461ad==_0x269fd8(0x1e9))_0x8461ad='Monday';if(_0x8461ad==_0x269fd8(0x22a))_0x8461ad=_0x269fd8(0x22a);if(_0x8461ad==_0x269fd8(0x205))_0x8461ad=_0x269fd8(0x205);if(_0x8461ad==_0x269fd8(0x1fd))_0x8461ad='Thursday';if(_0x8461ad==_0x269fd8(0x238))_0x8461ad=_0x269fd8(0x238);if(_0x8461ad=='Saturday')_0x8461ad='Saturday';const _0x26a010=_0x3b9e8d['tz']('Asia/dhaka')[_0x269fd8(0x224)](_0x269fd8(0x202)),_0x1e21ff=_0x3b9e8d['tz'](_0x269fd8(0x236))[_0x269fd8(0x224)]('HH'),{commands:_0x32ac74}=global['client'],{threadID:_0x1104e9}=_0x267e6e;let _0x21995c=await _0x2d5fa1[_0x269fd8(0x1e6)](_0x267e6e[_0x269fd8(0x226)]),_0x5ce5cc=_0x21995c[_0x269fd8(0x1dc)];if(!_0x267e6e[_0x269fd8(0x1e4)][_0x269fd8(0x21a)]||!Array[_0x269fd8(0x20c)](_0x267e6e[_0x269fd8(0x1e4)][_0x269fd8(0x21a)]))return;if(_0x267e6e[_0x269fd8(0x1e4)][_0x269fd8(0x21a)]&&Array['isArray'](_0x267e6e[_0x269fd8(0x1e4)]['addedParticipants'])&&_0x267e6e['logMessageData']['addedParticipants'][_0x269fd8(0x1f1)](_0x48fb08=>_0x48fb08[_0x269fd8(0x1e5)]==_0x2d5fa1['getCurrentUserID']())){let _0x61f4f6=_0x269fd8(0x21d),_0x59162f=__dirname+'/Nayan/join/join.gif';axios[_0x269fd8(0x1e3)](_0x61f4f6,{'responseType':_0x269fd8(0x1ee)})['then'](_0x4aea85=>{const _0x566659=_0x269fd8;fs['writeFileSync'](_0x59162f,_0x4aea85['data']);if(_0x267e6e['logMessageData'][_0x566659(0x21a)][_0x566659(0x1f1)](_0x458209=>_0x458209['userFbId']==_0x2d5fa1['getCurrentUserID']()))return _0x2d5fa1[_0x566659(0x23d)]('[\x20'+global[_0x566659(0x1d5)]['PREFIX']+_0x566659(0x230)+(!global['config'][_0x566659(0x231)]?_0x566659(0x1f2):global[_0x566659(0x1d5)]['BOTNAME']),_0x1104e9,_0x2d5fa1[_0x566659(0x1d8)]()),_0x2d5fa1[_0x566659(0x1f9)]('চলে\x20এসেছি\x20আমি\x20পিচ্চি\x20সৌরভ\x20তোমাদের\x20মাঝে🤭!',_0x267e6e[_0x566659(0x226)],()=>_0x2d5fa1[_0x566659(0x1f9)]({'body':global['config']['BOTNAME']+'\x20CONNECTED«\x0a\x0aAssalamualaykum☘️\x0a\x0a<------------------------------>\x20\x20\x0a\x0aBOT\x20CONNECTED\x20SUCCESFUL\x20!!!\x20\x0a\x0aAPPROVAL\x20ALLOW\x20IN\x20THIS\x20GROUP!!!\x0a\x0a<------------------------------>\x0a\x0aTO\x20VIEW\x20ANY\x20COMMAND\x20Use👉'+global['config'][_0x566659(0x1cf)]+_0x566659(0x217)+global[_0x566659(0x1d5)][_0x566659(0x1cf)]+_0x566659(0x1fc)+global['config'][_0x566659(0x1cf)]+_0x566659(0x23e)+global[_0x566659(0x1d5)][_0x566659(0x1cf)]+'islam\x20(video)\x0a'+global[_0x566659(0x1d5)][_0x566659(0x1cf)]+_0x566659(0x218)+global[_0x566659(0x1d5)][_0x566659(0x1cf)]+_0x566659(0x1e1),'attachment':fs['createReadStream'](_0x59162f)},_0x1104e9));})[_0x269fd8(0x1d4)](_0x1bbc03=>{const _0x5aaaaf=_0x269fd8;console[_0x5aaaaf(0x212)](_0x1bbc03);});}else{try{if(!fs[_0x269fd8(0x1ff)](__dirname+_0x269fd8(0x1e0))){let _0x3e0598=(await axios[_0x269fd8(0x1e3)](fontlink,{'responseType':_0x269fd8(0x1ee)}))[_0x269fd8(0x23f)];fs[_0x269fd8(0x203)](__dirname+_0x269fd8(0x1e0),Buffer['from'](_0x3e0598,_0x269fd8(0x22e)));};const {createReadStream:_0x13a271,existsSync:_0x4172c6,mkdirSync:_0x29313c,readdirSync:_0x574622}=global['nodemodule']['fs-extra'];let {threadName:_0x29ec7,participantIDs:_0x19814e}=await _0x2d5fa1[_0x269fd8(0x1e6)](_0x1104e9);const _0x5e39b6=global[_0x269fd8(0x23f)][_0x269fd8(0x20b)][_0x269fd8(0x1e3)](parseInt(_0x1104e9))||{};var _0x1f30e2=[],_0x54baac=[],_0x315e67=[],_0x314b46=[],_0x1de3f9=0x0,_0x179ecc=[];for(_0x44e592 in _0x267e6e[_0x269fd8(0x1e4)][_0x269fd8(0x21a)]){const _0xcd9b0e=_0x267e6e['logMessageData'][_0x269fd8(0x21a)][_0x44e592][_0x269fd8(0x21b)];_0x314b46['push'](_0x267e6e[_0x269fd8(0x1e4)][_0x269fd8(0x21a)][_0x44e592][_0x269fd8(0x1e5)][_0x269fd8(0x234)]()),_0x54baac[_0x269fd8(0x23a)](_0xcd9b0e),_0x1f30e2['push']({'tag':_0xcd9b0e,'id':_0x267e6e[_0x269fd8(0x20d)]}),_0x315e67[_0x269fd8(0x23a)](_0x19814e[_0x269fd8(0x225)]-_0x1de3f9++),console['log'](_0xcd9b0e);}var _0x44e592=[];for(let _0x248eab=0x0;_0x248eab<_0x267e6e[_0x269fd8(0x1e4)]['addedParticipants'][_0x269fd8(0x225)];_0x248eab++){let _0x45e635=__dirname+('/Nayan/join/'+_0x248eab+_0x269fd8(0x1d9)),_0x4c2792=__dirname+'/Nayan/join/avt.png',_0x3bcfb0=(await axios[_0x269fd8(0x1e3)](encodeURI(_0x269fd8(0x1f0)+_0x267e6e[_0x269fd8(0x1e4)][_0x269fd8(0x21a)][_0x248eab][_0x269fd8(0x1e5)]+_0x269fd8(0x200)),{'responseType':_0x269fd8(0x1ee)}))['data'];var _0x523180=['https://imgur.com/a/07L7UdX',_0x269fd8(0x1fb),_0x269fd8(0x1fb),_0x269fd8(0x1fb),_0x269fd8(0x1fb)];let _0xa381c3=await new Promise((_0xb88196,_0x1508a6)=>{const _0x4d4a21=_0x269fd8;request[_0x4d4a21(0x1e3)](encodeURI(''+_0x523180[Math[_0x4d4a21(0x21c)](Math[_0x4d4a21(0x216)]()*_0x523180[_0x4d4a21(0x225)])]),{'encoding':null},(_0x18a34d,_0x3cac04,_0x6426e)=>{_0x18a34d?_0x1508a6(_0x18a34d):_0xb88196(_0x6426e);});});fs[_0x269fd8(0x203)](_0x4c2792,Buffer[_0x269fd8(0x22f)](_0x3bcfb0,_0x269fd8(0x22e))),fs[_0x269fd8(0x203)](_0x45e635,Buffer[_0x269fd8(0x22f)](_0xa381c3,_0x269fd8(0x22e)));var _0x5b63da=await this['circle'](_0x4c2792);let _0x36f3bf=await loadImage(_0x45e635),_0x25b2f1=await loadImage(_0x5b63da);registerFont(__dirname+'/Nayan/font/Semi.ttf',{'family':_0x269fd8(0x1ef)});let _0x13a08a=createCanvas(0x76e,0x43a);console[_0x269fd8(0x1f7)](_0x13a08a[_0x269fd8(0x1dd)],_0x13a08a[_0x269fd8(0x209)]);let _0xce8ab2=_0x13a08a[_0x269fd8(0x240)]('2d');_0xce8ab2[_0x269fd8(0x228)](0x0,0x0,_0x13a08a[_0x269fd8(0x1dd)],_0x13a08a['height']),_0xce8ab2[_0x269fd8(0x237)](_0x36f3bf,0x0,0x0,_0x13a08a[_0x269fd8(0x1dd)],_0x13a08a[_0x269fd8(0x209)]),_0xce8ab2[_0x269fd8(0x237)](_0x25b2f1,_0x13a08a[_0x269fd8(0x1dd)]/0x2-0xbc,_0x13a08a[_0x269fd8(0x209)]/0x2-0x177,0x177,0x163),_0xce8ab2['fillStyle']='#FFF',_0xce8ab2[_0x269fd8(0x208)]=_0x269fd8(0x1d6),_0xce8ab2[_0x269fd8(0x1da)]=_0x269fd8(0x21e),_0xce8ab2[_0x269fd8(0x229)](''+_0x267e6e[_0x269fd8(0x1e4)][_0x269fd8(0x21a)][_0x248eab]['fullName'],_0x13a08a[_0x269fd8(0x1dd)]/0x2+0x14,_0x13a08a['height']/0x2+0x64),_0xce8ab2[_0x269fd8(0x227)](),_0xce8ab2['font']=_0x269fd8(0x1d7),_0xce8ab2[_0x269fd8(0x229)](_0x269fd8(0x23b)+_0x29ec7,_0x13a08a['width']/0x2-0xf,_0x13a08a['height']/0x2+0xeb);const _0x3b7d3d=_0x19814e[_0x269fd8(0x225)]-_0x248eab;if(_0x3b7d3d===0xb||_0x3b7d3d===0xc||_0x3b7d3d===0xd)suffix='th';else{const _0x1a6466=_0x3b7d3d%0xa;switch(_0x1a6466){case 0x1:suffix='st';break;case 0x2:suffix='nd';break;case 0x3:suffix='rd';break;default:suffix='th';break;}}_0xce8ab2['fillText'](_0x269fd8(0x20a)+_0x3b7d3d+suffix+_0x269fd8(0x1fa),_0x13a08a[_0x269fd8(0x1dd)]/0x2-0xf,_0x13a08a['height']/0x2+0x15e),_0xce8ab2[_0x269fd8(0x233)]();const _0x241326=_0x13a08a['toBuffer']();fs[_0x269fd8(0x203)](_0x45e635,_0x241326),_0x179ecc['push'](fs[_0x269fd8(0x206)](__dirname+(_0x269fd8(0x1fe)+_0x248eab+'.png')));}_0x315e67[_0x269fd8(0x1e8)]((_0x24f286,_0x2e724d)=>_0x24f286-_0x2e724d),typeof _0x5e39b6[_0x269fd8(0x204)]==_0x269fd8(0x214)?msg=_0x269fd8(0x23c):msg=_0x5e39b6['customJoin'];var _0x20b5f5=await _0x1bb6cf[_0x269fd8(0x1d3)](_0x267e6e[_0x269fd8(0x213)]);msg=msg[_0x269fd8(0x232)](/\{iduser}/g,_0x314b46[_0x269fd8(0x219)](',\x20'))[_0x269fd8(0x232)](/\{name}/g,_0x54baac[_0x269fd8(0x219)](',\x20'))[_0x269fd8(0x232)](/\{type}/g,_0x315e67[_0x269fd8(0x225)]>0x1?_0x269fd8(0x1eb):_0x269fd8(0x1eb))[_0x269fd8(0x232)](/\{soThanhVien}/g,_0x315e67[_0x269fd8(0x219)](',\x20'))[_0x269fd8(0x232)](/\{threadName}/g,_0x29ec7)['replace'](/\{author}/g,_0x20b5f5)[_0x269fd8(0x232)](/\{uidAuthor}/g,_0x267e6e['author'])[_0x269fd8(0x232)](/\{buoi}/g,_0x2036ed)['replace'](/\{time}/g,_0x26a010)[_0x269fd8(0x232)](/\{thu}/g,_0x8461ad);var _0x158f91={'body':msg,'attachment':_0x179ecc,'mentions':_0x1f30e2};_0x2d5fa1[_0x269fd8(0x1f9)](_0x158f91,_0x1104e9);for(let _0x40bdd2=0x0;_0x40bdd2<parseInt(_0x44e592[_0x269fd8(0x225)]);_0x40bdd2++){fs['unlinkSync'](__dirname+(_0x269fd8(0x1fe)+_0x40bdd2+'.png'));}}catch(_0x2612d0){return console[_0x269fd8(0x1f7)](_0x2612d0);};}};
+module.exports.config = {
+  name: "join",
+  eventType: ['log:subscribe'],
+  version: "1.0.0",
+  credits: "Mirai-Team", // FIXED BY YAN Nayan
+  description: "GROUP UPDATE NOTIFICATION"
+};
+
+const fs = require('fs-extra');
+const { loadImage, createCanvas, registerFont } = require("canvas");
+const request = require('request');
+//const { join } = require('path');
+const axios = require('axios');
+const jimp = require("jimp")
+const fontlink = 'https://drive.google.com/u/0/uc?id=10XFWm9F6u2RKnuVIfwoEdlav2HhkAUIB&export=download'
+let PRFX = `${global.config.PREFIX}`;
+
+module.exports.circle = async (image) => {
+  image = await jimp.read(image);
+  image.circle();
+  return await image.getBufferAsync("image/png");
+}
+
+let suffix;
+
+module.exports.run = async function({ api, event, Users }) {
+  var fullYear = global.client.getTime("fullYear");
+  var getHours = await global.client.getTime("hours");
+  var session = `${getHours < 3 ? "midnight" : getHours < 8 ? "Early morning" : getHours < 12 ? "noon" : getHours < 17 ? "afternoon" : getHours < 23 ? "evening" : "midnight"}`
+  const moment = require("moment-timezone");
+  var thu = moment.tz('Asia/dhaka').format('dddd');
+  if (thu == 'Sunday') thu = 'Sunday'
+  if (thu == 'Monday') thu = 'Monday'
+  if (thu == 'Tuesday') thu = 'Tuesday'
+  if (thu == 'Wednesday') thu = 'Wednesday'
+  if (thu == "Thursday") thu = 'Thursday'
+  if (thu == 'Friday') thu = 'Friday'
+  if (thu == 'Saturday') thu = 'Saturday'
+  const time = moment.tz("Asia/dhaka").format("HH:mm:ss - DD/MM/YYYY");
+  const hours = moment.tz("Asia/dhaka").format("HH");
+  const { commands } = global.client;
+  const { threadID } = event;
+  let threadInfo = await api.getThreadInfo(event.threadID);
+  let threadName = threadInfo.threadName;
+  if (!event.logMessageData.addedParticipants || !Array.isArray(event.logMessageData.addedParticipants)) {
+    return;
+  }
+  if (event.logMessageData.addedParticipants && Array.isArray(event.logMessageData.addedParticipants) && event.logMessageData.addedParticipants.some(i => i.userFbId == api.getCurrentUserID())) {
+    //api.changeNickname(`𝗕𝗢𝗧 ${(!global.config.BOTNAME) ? "Buddy" : global.config.BOTNAME}`, threadID, api.getCurrentUserID());
+
+    let gifUrl = 'https://i.imgur.com/2U2iGqp.gif';
+let gifPath = __dirname + '/Nayan/join/join.gif';
+
+axios.get(gifUrl, { responseType: 'arraybuffer' })
+.then(response => {
+    fs.writeFileSync(gifPath, response.data);
+  if (event.logMessageData.addedParticipants.some(i => i.userFbId == api.getCurrentUserID())) {
+    api.changeNickname(`[ ${global.config.PREFIX} ] • ➠${(!global.config.BOTNAME) ? "bot" : global.config.BOTNAME}`, threadID, api.getCurrentUserID());
+    return api.sendMessage("চলে এসেছি আমি পিচ্চি সৌরভ তোমাদের মাঝে🤭!", event.threadID, () => api.sendMessage({ body: `${global.config.BOTNAME} CONNECTED«\n\nAssalamualaykum☘️
+<------------------------------>  
+BOT CONNECTED SUCCESFUL !!! 
+
+APPROVAL ALLOW IN THIS GROUP!!!
+<------------------------------>\n\nTO VIEW ANY COMMAND Use👉${global.config.PREFIX}help\nSee command👉 ${global.config.PREFIX}command
+\n\EXAMPLE:👇\n${global.config.PREFIX}admin (information)\n${global.config.PREFIX}islam (video)\n${global.config.PREFIX}tik (link)\n${global.config.PREFIX}fbvideo (link)
+<------------------------------>
+AND FOR ANY COMPLAINTS OR CONTACT BOT OPERATOR 
+
+DEVELOPER :𝐊𝐈𝐍𝐆 𝐒𝐇𝐎𝐔𝐑𝐎𝐕 
+
+🟣Facebook Account Link: 
+
+https://www.facebook.com/www.xsxx.com365
+
+🔵WHATSAPP NUMBER: wa.me/+8801709281334
+
+🟢SUPPORT EMAIL: www.shourovislam5430@gmail.com`, attachment: fs.createReadStream(gifPath)}, threadID));
+  }})
+.catch(error => {
+    console.error(error);
+});
+  }
+  else {
+    try {
+      if (!fs.existsSync(__dirname + `/Nayan/font/Semi.ttf`)) {
+        let getfont = (await axios.get(fontlink, { responseType: "arraybuffer" })).data;
+        fs.writeFileSync(__dirname + `/Nayan/font/Semi.ttf`, Buffer.from(getfont, "utf-8"));
+      };
+      const { createReadStream, existsSync, mkdirSync, readdirSync } = global.nodemodule["fs-extra"];
+      let { threadName, participantIDs } = await api.getThreadInfo(threadID);
+      const threadData = global.data.threadData.get(parseInt(threadID)) || {};
+      var mentions = [], nameArray = [], memLength = [], iduser = [], i = 0;
+      var abx = [];
+      for (id in event.logMessageData.addedParticipants) {
+        const userName = event.logMessageData.addedParticipants[id].fullName; iduser.push(event.logMessageData.addedParticipants[id].userFbId.toString());
+        nameArray.push(userName);
+        mentions.push({ tag: userName, id: event.senderID });
+        memLength.push(participantIDs.length - i++);
+        console.log(userName)
+      }
+      // console.log(event.logMessageData.addedParticipants)
+      var id = [];
+      for (let o = 0; o < event.logMessageData.addedParticipants.length; o++) {
+        let pathImg = __dirname + `/Nayan/join/${o}.png`;
+        let pathAva = __dirname + `/Nayan/join/avt.png`;
+        let avtAnime = (await axios.get(encodeURI(
+          `https://graph.facebook.com/${event.logMessageData.addedParticipants[o].userFbId}/picture?height=720&width=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`), { responseType: "arraybuffer" })).data;
+        var ok = [
+          'https://imgur.com/a/07L7UdX',
+          'https://imgur.com/a/07L7UdX',
+          'https://imgur.com/a/07L7UdX',
+          'https://imgur.com/a/07L7UdX',
+          'https://imgur.com/a/07L7UdX'
+        ]
+        let background = await new Promise((resolve, reject) => {
+          request.get(
+            encodeURI(`${ok[Math.floor(Math.random() * ok.length)]}`),
+            { encoding: null },
+            (error, response, body) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve(body);
+              }
+            }
+          );
+        });
+        fs.writeFileSync(pathAva, Buffer.from(avtAnime, "utf-8"));
+        fs.writeFileSync(pathImg, Buffer.from(background, "utf-8"));
+        var avatar = await this.circle(pathAva);
+        let baseImage = await loadImage(pathImg);
+        let baseAva = await loadImage(avatar);
+        registerFont(__dirname + `/Nayan/font/Semi.ttf`, {
+          family: "Semi"
+        });
+        let canvas = createCanvas(1902, 1082);
+        console.log(canvas.width, canvas.height)
+        let ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(baseAva, canvas.width / 2 - 188, canvas.height / 2 - 375, 375, 355);
+        ctx.fillStyle = "#FFF";
+        ctx.textAlign = "center";
+        ctx.font = `155px Semi`;
+        ctx.fillText(`${event.logMessageData.addedParticipants[o].fullName}`, canvas.width / 2 + 20, canvas.height / 2 + 100);
+        ctx.save();
+        ctx.font = `75px Semi`;
+        ctx.fillText(`Welcome to ${threadName}`, canvas.width / 2 - 15, canvas.height / 2 + 235)
+        const number = participantIDs.length - o;
+
+        if (number === 11 || number === 12 || number === 13) {
+          suffix = "th";
+        } else {
+          const lastDigit = number % 10;
+          switch (lastDigit) {
+            case 1:
+              suffix = "st";
+              break;
+            case 2:
+              suffix = "nd";
+              break;
+            case 3:
+              suffix = "rd";
+              break;
+            default:
+              suffix = "th";
+              break;
+          }
+        }
+
+        ctx.fillText(`You are the ${number}${suffix} member of this group`, canvas.width / 2 - 15, canvas.height / 2 + 350);
+        ctx.restore();
+        const imageBuffer = canvas.toBuffer();
+        fs.writeFileSync(pathImg, imageBuffer);
+        abx.push(fs.createReadStream(__dirname + `/Nayan/join/${o}.png`))
+      }
+      memLength.sort((a, b) => a - b);
+      (typeof threadData.customJoin == "undefined") ? msg = `Hello {name}\nWelcome to {threadName}\nyou're the {soThanhVien}th member on this group please enjoy"\n─────────────────\n[ {time} - {thu} ]` : msg = threadData.customJoin;
+      var nameAuthor = await Users.getNameUser(event.author)
+      msg = msg
+        .replace(/\{iduser}/g, iduser.join(', '))
+        .replace(/\{name}/g, nameArray.join(', '))
+        .replace(/\{type}/g, (memLength.length > 1) ? 'You' : 'You')
+        .replace(/\{soThanhVien}/g, memLength.join(', '))
+        .replace(/\{threadName}/g, threadName)
+        .replace(/\{author}/g, nameAuthor)
+        .replace(/\{uidAuthor}/g, event.author)
+        .replace(/\{buoi}/g, session)
+        .replace(/\{time}/g, time)
+        .replace(/\{thu}/g, thu);
+
+      var formPush = { body: msg, attachment: abx, mentions }
+      api.sendMessage(formPush, threadID);
+      for (let ii = 0; ii < parseInt(id.length); ii++) {
+        fs.unlinkSync(__dirname + `/Nayan/join/${ii}.png`)
+      }
+    } catch (e) { return console.log(e) };
+  }
+    }
