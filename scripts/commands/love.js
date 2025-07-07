@@ -55,9 +55,9 @@ async function makeImage({ one, two }) {
   const img2 = await jimp.read(await circle(avtPath2));
 
   // Resize background and avatars
-  bg.resize(1281, 720);         // match your uploaded image size
-  img1.resize(180, 180);
-  img2.resize(180, 180);
+  bg.resize(230, 230);         // match your uploaded image size
+  img1.resize(232, 232);
+  img2.resize(232, 523);
 
   // Adjust avatar positions (X, Y)
   bg.composite(img1, 215, 190); // left avatar
