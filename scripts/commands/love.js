@@ -5,7 +5,7 @@ const jimp = require("jimp");
 
 module.exports.config = {
   name: "love",
-  version: "1.0.0",
+  version: "1.0.1",
   permission: 0,
   credits: "Modified by King_Shourov",
   description: "Love-style profile image generator",
@@ -15,6 +15,7 @@ module.exports.config = {
   cooldowns: 5,
 };
 
+// 📥 On Load: Download background image
 module.exports.onLoad = async () => {
   const dir = path.join(__dirname, "cache");
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -26,48 +27,55 @@ module.exports.onLoad = async () => {
   }
 };
 
+// 🌀 Make avatar circle
 async function circle(imagePath) {
   const img = await jimp.read(imagePath);
   img.circle();
   return await img.getBufferAsync("image/png");
 }
 
+// 🖼️ Generate final image
 async function makeImage({ one, two }) {
-  const cachePath = path.join(__dirname, "cache");
-  const bgPath = path.join(cachePath, "shourovlove.png");
-  const avtPath1 = path.join(cachePath, `avt_${one}.png`);
-  const avtPath2 = path.join(cachePath, `avt_${two}.png`);
-  const finalPath = path.join(cachePath, `dp8_${one}_${two}.png`);
+  const cacheDir = path.join(__dirname, "cache");
+  const bgPath = path.join(cacheDir, "shourovlove.png");
+  const avtPath1 = path.join(cacheDir, `avt_${one}.png`);
+  const avtPath2 = path.join(cacheDir, `avt_${two}.png`);
+  const finalPath = path.join(cacheDir, `love_${one}_${two}.png`);
 
-  const avt1 = await axios.get(`https://graph.facebook.com/${one}/picture?width=512&height=512&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`, { responseType: "arraybuffer" });
-  fs.writeFileSync(avtPath1, Buffer.from(avt1.data, "utf-8"));
+  // Get avatars
+  const res1 = await axios.get(`https://graph.facebook.com/${one}/picture?width=512&height=512&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`, { responseType: "arraybuffer" });
+  fs.writeFileSync(avtPath1, Buffer.from(res1.data, "utf-8"));
 
-  const avt2 = await axios.get(`https://graph.facebook.com/${two}/picture?width=512&height=512&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`, { responseType: "arraybuffer" });
-  fs.writeFileSync(avtPath2, Buffer.from(avt2.data, "utf-8"));
+  const res2 = await axios.get(`https://graph.facebook.com/${two}/picture?width=512&height=512&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`, { responseType: "arraybuffer" });
+  fs.writeFileSync(avtPath2, Buffer.from(res2.data, "utf-8"));
 
+  // Read images
   const bg = await jimp.read(bgPath);
   const img1 = await jimp.read(await circle(avtPath1));
   const img2 = await jimp.read(await circle(avtPath2));
 
-  // Resize avatars
-  img1.resize(180, 180); // sender
-  img2.resize(180, 180); // mentioned
+  // Resize background and avatars
+  bg.resize(1281, 720);         // match your uploaded image size
+  img1.resize(180, 180);
+  img2.resize(180, 180);
 
-  // Adjust avatar positions as per your image layout
-  bg.composite(img1, 105, 160); // left side
-  bg.composite(img2, 430, 160); // right side
+  // Adjust avatar positions (X, Y)
+  bg.composite(img1, 215, 190); // left avatar
+  bg.composite(img2, 880, 190); // right avatar
 
   await bg.writeAsync(finalPath);
 
+  // Cleanup
   fs.unlinkSync(avtPath1);
   fs.unlinkSync(avtPath2);
 
   return finalPath;
 }
 
+// 🚀 Run the command
 module.exports.run = async function ({ event, api }) {
-  const mention = Object.keys(event.mentions);
   const { threadID, messageID, senderID } = event;
+  const mention = Object.keys(event.mentions);
 
   if (!mention[0]) {
     return api.sendMessage("⚠️ দয়া করে কাউকে ট্যাগ করুন!", threadID, messageID);
@@ -75,7 +83,6 @@ module.exports.run = async function ({ event, api }) {
 
   const one = senderID;
   const two = mention[0];
-
   const imagePath = await makeImage({ one, two });
 
   return api.sendMessage(
