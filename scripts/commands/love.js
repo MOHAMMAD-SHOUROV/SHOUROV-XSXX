@@ -20,9 +20,9 @@ module.exports.onLoad = async () => {
   const dir = path.join(__dirname, "cache");
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
-  const bgPath = path.join(dir, "Shourov.png");
+  const bgPath = path.join(dir, "shourovlove.png");
   if (!fs.existsSync(bgPath)) {
-    const res = await axios.get("https://i.imgur.com/5uUfYUj.jpeg", { responseType: "arraybuffer" });
+    const res = await axios.get("https://i.imgur.com/TOj5hnO.jpeg", { responseType: "arraybuffer" });
     fs.writeFileSync(bgPath, Buffer.from(res.data, "binary"));
   }
 };
@@ -36,7 +36,7 @@ async function circle(imagePath) {
 
 // 🖼️ Create the final image
 async function makeImage({ one, two }) {
-  const bgPath = path.join(__dirname, "cache", "Shourov.png");
+  const bgPath = path.join(__dirname, "cache", "shourovlove.png");
   const avtPath1 = path.join(__dirname, "cache", `avt_${one}.png`);
   const avtPath2 = path.join(__dirname, "cache", `avt_${two}.png`);
   const finalPath = path.join(__dirname, "cache", `dp8_${one}_${two}.png`);
@@ -84,7 +84,7 @@ module.exports.run = async function ({ event, api }) {
   return api.sendMessage(
     {
       body:
-        "︵💚🌸︵\n\n-𝗙𝗮𝘃𝗼𝗿𝗶𝘁𝗲 𝗶𝗻 𝘁𝗵𝗶𝘀 𝗰𝗶𝘁𝘆 𝗶𝘀 𝘄𝗿𝗶𝘁𝗶𝗻𝗴 𝗻𝗼𝘃𝗲𝗹𝘀 𝗯𝘆 𝗽𝗮𝘀𝘀𝗶𝗼𝗻 𝗻𝗼𝘁 𝗹𝗼𝘃𝗲 -!!🙂💔🐰\n\n_এই শহরে আবেগ দ্বারা উপন্যাস লেখা হয় ভালোবাসা না-!!🖤🌸🐰",
+        "︵💚🌸︵\n\n-𝗙𝗮𝘃𝗼𝗿𝗶𝘁𝗲 𝗶𝗻 𝘁𝗵𝗶𝘀 𝗰𝗶𝘁𝘆 𝗶𝘀 𝘄𝗿𝗶𝘁𝗶𝗻𝗴 𝗻𝗼𝘃𝗲𝗹𝘀 𝗯𝘆 𝗽𝗮𝘀𝘀𝗶𝗼𝗻 𝗻𝗼𝘁 𝗹𝗼𝘃𝗲 -!!🙂💔🐰\n\n_এই শহরে আবেগ দ্বারা উপন্যাস লেখা হয় ভালোবাসা না-!!🖤🌸🐰𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯",
       attachment: fs.createReadStream(imagePath),
       mentions: [
         {
