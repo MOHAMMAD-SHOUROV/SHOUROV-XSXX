@@ -33,33 +33,29 @@ async function circle(imagePath) {
 }
 
 async function makeImage({ one, two }) {
-  const bgPath = path.join(__dirname, "cache", "shourovlove.png");
-  const avtPath1 = path.join(__dirname, "cache", `avt_${one}.png`);
-  const avtPath2 = path.join(__dirname, "cache", `avt_${two}.png`);
-  const finalPath = path.join(__dirname, "cache", `love_${one}_${two}.png`);
+  const cachePath = path.join(__dirname, "cache");
+  const bgPath = path.join(cachePath, "shourovlove.png");
+  const avtPath1 = path.join(cachePath, `avt_${one}.png`);
+  const avtPath2 = path.join(cachePath, `avt_${two}.png`);
+  const finalPath = path.join(cachePath, `dp8_${one}_${two}.png`);
 
-  const res1 = await axios.get(
-    `https://graph.facebook.com/${one}/picture?width=512&height=512&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`,
-    { responseType: "arraybuffer" }
-  );
-  fs.writeFileSync(avtPath1, Buffer.from(res1.data, "binary"));
+  const avt1 = await axios.get(`https://graph.facebook.com/${one}/picture?width=512&height=512&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`, { responseType: "arraybuffer" });
+  fs.writeFileSync(avtPath1, Buffer.from(avt1.data, "utf-8"));
 
-  const res2 = await axios.get(
-    `https://graph.facebook.com/${two}/picture?width=512&height=512&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`,
-    { responseType: "arraybuffer" }
-  );
-  fs.writeFileSync(avtPath2, Buffer.from(res2.data, "binary"));
+  const avt2 = await axios.get(`https://graph.facebook.com/${two}/picture?width=512&height=512&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`, { responseType: "arraybuffer" });
+  fs.writeFileSync(avtPath2, Buffer.from(avt2.data, "utf-8"));
 
   const bg = await jimp.read(bgPath);
   const img1 = await jimp.read(await circle(avtPath1));
   const img2 = await jimp.read(await circle(avtPath2));
 
-  bg.resize(700, 500);
-  img1.resize(230, 230);
-  img2.resize(232, 232);
+  // Resize avatars
+  img1.resize(180, 180); // sender
+  img2.resize(180, 180); // mentioned
 
-  bg.composite(img1, 93, 122);
-  bg.composite(img2, 513, 124);
+  // Adjust avatar positions as per your image layout
+  bg.composite(img1, 105, 160); // left side
+  bg.composite(img2, 430, 160); // right side
 
   await bg.writeAsync(finalPath);
 
@@ -70,11 +66,11 @@ async function makeImage({ one, two }) {
 }
 
 module.exports.run = async function ({ event, api }) {
-  const { threadID, messageID, senderID } = event;
   const mention = Object.keys(event.mentions);
+  const { threadID, messageID, senderID } = event;
 
   if (!mention[0]) {
-    return api.sendMessage("⚠️ দয়া করে কাউকে ট্যাগ করুন!", threadID, messageID);
+    return api.sendMessage("⚠️ দয়া করে কাউকে ট্যাগ করুন!", threadID, messageID);
   }
 
   const one = senderID;
@@ -87,7 +83,12 @@ module.exports.run = async function ({ event, api }) {
       body:
         "︵💚🌸︵\n\n-𝗙𝗮𝘃𝗼𝗿𝗶𝘁𝗲 𝗶𝗻 𝘁𝗵𝗶𝘀 𝗰𝗶𝘁𝘆 𝗶𝘀 𝘄𝗿𝗶𝘁𝗶𝗻𝗴 𝗻𝗼𝘃𝗲𝗹𝘀 𝗯𝘆 𝗽𝗮𝘀𝘀𝗶𝗼𝗻 𝗻𝗼𝘁 𝗹𝗼𝘃𝗲 -!!🙂💔🐰\n\n_এই শহরে আবেগ দ্বারা উপন্যাস লেখা হয় ভালোবাসা না-!!🖤🌸🐰𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯",
       attachment: fs.createReadStream(imagePath),
-      mentions: [{ tag: event.mentions[two], id: two }],
+      mentions: [
+        {
+          tag: event.mentions[two],
+          id: two,
+        },
+      ],
     },
     threadID,
     () => fs.unlinkSync(imagePath),
