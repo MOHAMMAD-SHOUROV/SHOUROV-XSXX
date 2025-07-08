@@ -1,30 +1,36 @@
 module.exports.config = {
   name: "frok",
   version: "1.0.1",
-  hasPermssion: 0,
-  credits: "Shourov",
-  description: "📦 Share Shourov's bot GitHub fork link",
+  hasPermission: 0,
+  credits: "King_Shourov",
+  description: "📦 Shourov's bot GitHub fork link",
   commandCategory: "system",
-  usages: "Type: frok / forklink / githublink...",
-  cooldowns: 5
+  usages: "no prefix",
+  cooldowns: 5,
+  prefix: false // ✅ prefix না চাইলে এটা false রাখো
 };
 
-module.exports.languages = {
-  en: {
-    title: "🤖 Shourov's GitHub Bot Fork",
-    list: `🔹 SHOUROV-XSXX\n🌐 GitHub: https://github.com/MOHAMMAD-SHOUROV/SHOUROV-XSXX`,
-    footer: `📌 Developer: https://facebook.com/www.xsxx.com365\n📌 Support GitHub 🌟 & Follow!`
+module.exports.handleEvent = async function({ event, api }) {
+  const body = (event.body || "").toLowerCase();
+  const triggers = ["frok", "forklink", "myfrok", "githublink"];
+
+  if (triggers.some(trigger => body === trigger)) {
+    const message = `
+╭━━〔 🤖 Shourov's GitHub Fork 〕━━╮
+
+🔹 SHOUROV-BOT REPO:
+🌐 https://github.com/MOHAMMAD-SHOUROV/SHOUROV-XSXX
+
+📌 Facebook:
+https://www.facebook.com/www.xsxx.com365
+
+📌 GitHub:
+https://github.com/MOHAMMAD-SHOUROV
+
+╰━━━━━━━━━━━━━━━━━━━━━━━╯
+    `.trim();
+    api.sendMessage(message, event.threadID, event.messageID);
   }
 };
 
-module.exports.handleEvent = async function ({ event, api, getText }) {
-  const body = event.body?.toLowerCase() || "";
-  const triggers = ["frok", "forklink", "myfrok", "githublink", "github"];
-
-  if (triggers.some(trigger => body.includes(trigger))) {
-    const msg = `╭━〔 ${getText("title")} 〕━╮\n\n${getText("list")}\n\n━━━━━━━━━━━━━━━\n${getText("footer")}`;
-    return api.sendMessage(msg, event.threadID, event.messageID);
-  }
-};
-
-module.exports.run = () => {};
+module.exports.run = () => {}; // Prefix দিলে এই run ব্যবহার হবে
