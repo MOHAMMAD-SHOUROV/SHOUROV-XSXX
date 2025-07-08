@@ -1,96 +1,67 @@
-const fs = require("fs-extra");
-const axios = require("axios");
-const path = require("path");
-const jimp = require("jimp");
-
 module.exports.config = {
-  name: "shourovlove",
-  version: "1.0.0",
-  hasPermission: 0,
-  credits: "King_Shourov",
-  description: "Love-style DP generator",
-  commandCategory: "media",
-  usages: "",
-  cooldowns: 5
+name: "shourovlove",
+version: "1.0.0",
+hasPermission: 0,
+credits: "shourov",
+description: "Send a trending TikTok video",
+commandCategory: "media",
+usages: "",
+cooldowns: 5,
+prefix:true
 };
-
-module.exports.onLoad = async () => {
-  const canvasPath = path.join(__dirname, "cache", "canvas");
-  const imgPath = path.join(canvasPath, "shourovlove.png");
-
-  if (!fs.existsSync(canvasPath)) fs.mkdirSync(canvasPath, { recursive: true });
-
-  if (!fs.existsSync(imgPath)) {
-    const res = await axios.get("https://i.imgur.com/r81XGpZ.jpeg", { responseType: "arraybuffer" });
-    fs.writeFileSync(imgPath, Buffer.from(res.data, "binary"));
-  }
-};
-
-async function circle(imagePath) {
-  const img = await jimp.read(imagePath);
-  img.circle();
-  return await img.getBufferAsync("image/png");
+module.exports.onLoad = async() => {
+const { resolve } = global.nodemodule["path"];
+const { existsSync, mkdirSync } = global.nodemodule["fs-extra"];
+const { downloadFile } = global.utils;
+const dirMaterial = __dirname + /cache/canvas/;
+const path = resolve(__dirname, 'cache/canvas', 'shourovlove.png');
+if (!existsSync(dirMaterial + "canvas")) mkdirSync(dirMaterial, { recursive: true });
+if (!existsSync(path)) await downloadFile("https://i.imgur.com/r81XGpZ.jpeg", path);
 }
 
 async function makeImage({ one, two }) {
-  const canvasPath = path.join(__dirname, "cache", "canvas");
-  const bgPath = path.join(canvasPath, "shourovlove.png");
-  const pathImg = path.join(canvasPath, `love_${one}_${two}.png`);
-  const avtPath1 = path.join(canvasPath, `avt_${one}.png`);
-  const avtPath2 = path.join(canvasPath, `avt_${two}.png`);
+const fs = global.nodemodule["fs-extra"];
+const path = global.nodemodule["path"];
+const axios = global.nodemodule["axios"];
+const jimp = global.nodemodule["jimp"];
+const __root = path.resolve(__dirname, "cache", "canvas");
 
-  // Download avatars
-  const getAvatar = async (uid, filePath) => {
-    const res = await axios.get(
-      `https://graph.facebook.com/${uid}/picture?width=512&height=512&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`,
-      { responseType: "arraybuffer" }
-    );
-    fs.writeFileSync(filePath, Buffer.from(res.data, "utf-8"));
-  };
+let batgiam_img = await jimp.read(__root + "/shourovlove.png");
+let pathImg = __root + /batman${one}_${two}.png;
+let avatarOne = __root + /avt_${one}.png;
+let avatarTwo = __root + /avt_${two}.png;
 
-  await getAvatar(one, avtPath1);
-  await getAvatar(two, avtPath2);
+let getAvatarOne = (await axios.get(https://graph.facebook.com/${one}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662, { responseType: 'arraybuffer' })).data;
+fs.writeFileSync(avatarOne, Buffer.from(getAvatarOne, 'utf-8'));
 
-  // Read and process
-  const bg = await jimp.read(bgPath);
-  const img1 = await jimp.read(await circle(avtPath1));
-  const img2 = await jimp.read(await circle(avtPath2));
+let getAvatarTwo = (await axios.get(https://graph.facebook.com/${two}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662, { responseType: 'arraybuffer' })).data;
+fs.writeFileSync(avatarTwo, Buffer.from(getAvatarTwo, 'utf-8'));
 
-  img1.resize(230, 230);
-  img2.resize(232, 232);
+let circleOne = await jimp.read(await circle(avatarOne));
+let circleTwo = await jimp.read(await circle(avatarTwo));
+batgiam_img.composite(circleOne.resize(230, 230), 93, 122).composite(circleTwo.resize(232, 232), 513, 124);
+let raw = await batgiam_img.getBufferAsync("image/png");
 
-  bg.composite(img1, 93, 122);
-  bg.composite(img2, 513, 124);
+fs.writeFileSync(pathImg, raw);
+fs.unlinkSync(avatarOne);
+fs.unlinkSync(avatarTwo);
 
-  await bg.writeAsync(pathImg);
-
-  fs.unlinkSync(avtPath1);
-  fs.unlinkSync(avtPath2);
-
-  return pathImg;
+return pathImg;
+}
+async function circle(image) {
+const jimp = require("jimp");
+image = await jimp.read(image);
+image.circle();
+return await image.getBufferAsync("image/png");
 }
 
-module.exports.run = async function ({ event, api }) {
-  const mention = Object.keys(event.mentions);
-  const one = event.senderID;
-  const two = mention[0];
-
-  if (!two) return api.sendMessage("⚠️ দয়া করে কাউকে ট্যাগ করুন!", event.threadID, event.messageID);
-
-  try {
-    const imgPath = await makeImage({ one, two });
-    return api.sendMessage(
-      {
-        body: "︵💚🌸︵\n\n-𝗙𝗮𝘃𝗼𝗿𝗶𝘁𝗲 𝗶𝗻 𝘁𝗵𝗶𝘀 𝗰𝗶𝘁𝘆 𝗶𝘀 𝘄𝗿𝗶𝘁𝗶𝗻𝗴 𝗻𝗼𝘃𝗲𝗹𝘀 𝗯𝘆 𝗽𝗮𝘀𝘀𝗶𝗼𝗻 𝗻𝗼𝘁 𝗹𝗼𝘃𝗲 -!!🙂💔🐰\n\n_এই শহরে আবেগ দ্বারা উপন্যাস লেখা হয় ভালোবাসা না-!!🖤🌸🐰𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯",
-        attachment: fs.createReadStream(imgPath),
-        mentions: [{ tag: event.mentions[two], id: two }]
-      },
-      event.threadID,
-      () => fs.unlinkSync(imgPath),
-      event.messageID
-    );
-  } catch (err) {
-    console.error(err);
-    api.sendMessage("❌ ছবি তৈরিতে ত্রুটি ঘটেছে!", event.threadID, event.messageID);
-  }
-};
+module.exports.run = async function ({ event, api, args }) {
+const fs = global.nodemodule["fs-extra"];
+const { threadID, messageID, senderID } = event;
+const mention = Object.keys(event.mentions);
+if (!mention[0]) return api.sendMessage("ভালোবাসার মানুষ টি কে টেগ করুন-!!💏🙈", threadID, messageID);
+else {
+const one = senderID, two = mention[0];
+return makeImage({ one, two }).then(path => api.sendMessage({ body: "︵💚🌸︵\n\n-𝗙𝗮𝘃𝗼𝗿𝗶𝘁𝗲 𝗶𝗻 𝘁𝗵𝗶𝘀 𝗰𝗶𝘁𝘆 𝗶𝘀 𝘄𝗿𝗶𝘁𝗶𝗻𝗴 𝗻𝗼𝘃𝗲𝗹𝘀 𝗯𝘆 𝗽𝗮𝘀𝘀𝗶𝗼𝗻 𝗻𝗼𝘁 𝗹𝗼𝘃𝗲 -!!🙂💔🐰\n\n_ এই শহরে আবেগ দ্বারা উপন্যাস লেখা হয় ভালোবাসা না-!!🖤🌸🐰𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯", attachment: fs.createReadStream(path) }, threadID, () => fs.unlinkSync(path), messageID));
+}
+}
