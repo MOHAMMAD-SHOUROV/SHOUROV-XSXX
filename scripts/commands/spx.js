@@ -1,15 +1,16 @@
 const fs = require("fs");
+const path = require("path");
 
 module.exports = {
   config: {
     name: "🐰",
     version: "1.0.1",
     prefix: false,
-    permission: 0, // spelling fixed
+    permission: 0,
     credits: "nayan",
-    description: "Fun",
+    description: "Send funny rabbit voice",
     category: "no prefix",
-    usages: "😒",
+    usages: "🐰",
     cooldowns: 5,
   },
 
@@ -17,25 +18,24 @@ module.exports = {
     const { threadID, messageID, body } = event;
     if (!body) return;
 
+    const triggers = ["🐰", "rabbit", "korgosh", "খরগোশ"];
     const lowerBody = body.toLowerCase();
+    const isTriggered = triggers.some(trigger => lowerBody.includes(trigger));
 
-    // Trigger condition (can add more)
-    const triggers = ["🐰", "", "", "", ""];
-    const isTriggered = triggers.some(trigger => lowerBody.startsWith(trigger));
+    if (!isTriggered) return;
 
-    if (isTriggered) {
-      const filePath = __dirname + "/Nayan/korgus.mp3";
-      if (!fs.existsSync(filePath)) return;
+    const filePath = path.join(__dirname, "Nayan", "korgus.mp3");
+    if (!fs.existsSync(filePath)) return;
 
-      const msg = {
-        body: "এঁইঁ খোঁরঁগোঁশঁ গাঁজঁরঁ খাঁবিঁনিঁ তুঁইঁ",
-        attachment: fs.createReadStream(filePath),
-      };
+    const msg = {
+      body: "এঁইঁ খোঁরঁগোঁশঁ গাঁজঁরঁ খাঁবিঁনিঁ তুঁইঁ 🐰",
+      attachment: fs.createReadStream(filePath),
+    };
 
-      api.sendMessage(msg, threadID, messageID);
-      api.setMessageReaction("😁", messageID, (err) => {}, true);
-    }
+    api.sendMessage(msg, threadID, () => {
+      api.setMessageReaction("😁", event.messageID, () => {}, true);
+    });
   },
 
-  start: function () {}
+  start: () => {},
 };
