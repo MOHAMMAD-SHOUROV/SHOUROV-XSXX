@@ -1,25 +1,82 @@
-module.exports.config = { name: "love", version: "1.0.0", hasPermission: 0, credits: "RAJA ViP 5X", description: "Love-style image with two avatars", commandCategory: "media", usages: "love @mention", cooldowns: 5, };
+const fs = require("fs-extra");
+const axios = require("axios");
+const path = require("path");
+const jimp = require("jimp");
 
-module.exports.onLoad = async () => { const { resolve } = global.nodemodule["path"]; const { existsSync, mkdirSync } = global.nodemodule["fs-extra"]; const { downloadFile } = global.utils; const dirMaterial = __dirname + /cache/canvas/; const path = resolve(__dirname, 'cache/canvas', 'shourovlove.png'); if (!existsSync(dirMaterial)) mkdirSync(dirMaterial, { recursive: true }); if (!existsSync(path)) await downloadFile("https://i.imgur.com/XAbgU5G.jpeg", path); };
+module.exports.config = {
+  name: "love",
+  version: "1.1.0",
+  hasPermission: 0,
+  credits: "𝐊𝐈𝐍𝐆 𝐒𝐇𝐎𝐔𝐑𝐎𝐕",
+  description: "Love-style DP generator",
+  commandCategory: "media",
+  usages: "tag someone",
+  cooldowns: 5
+};
 
-async function makeImage({ one, two }) { const fs = global.nodemodule["fs-extra"]; const path = global.nodemodule["path"]; const axios = global.nodemodule["axios"]; const jimp = global.nodemodule["jimp"]; const __root = path.resolve(__dirname, "cache", "canvas");
+module.exports.onLoad = async () => {
+  const dir = __dirname + `/cache/love/`;
+  const bgUrl = "https://i.imgur.com/XAbgU5G.jpeg"; // আপনার ব্যাকগ্রাউন্ড
+  const bgPath = path.join(dir, "background.png");
 
-let bg = await jimp.read(__root + "/shourovlove.png"); let pathImg = __root + /love_${one}_${two}.png; let avatarOne = __root + /avt_${one}.png; let avatarTwo = __root + /avt_${two}.png;
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  if (!fs.existsSync(bgPath)) {
+    const res = await axios.get(bgUrl, { responseType: "arraybuffer" });
+    fs.writeFileSync(bgPath, res.data);
+  }
+};
 
-let getAvatarOne = (await axios.get(https://graph.facebook.com/${one}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662, { responseType: 'arraybuffer' })).data; fs.writeFileSync(avatarOne, Buffer.from(getAvatarOne, 'utf-8'));
+module.exports.run = async function ({ api, event }) {
+  const mention = Object.keys(event.mentions);
+  if (!mention[0]) return api.sendMessage("❌ ট্যাগ দিন যাকে ভালোবাসেন 💑", event.threadID, event.messageID);
 
-let getAvatarTwo = (await axios.get(https://graph.facebook.com/${two}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662, { responseType: 'arraybuffer' })).data; fs.writeFileSync(avatarTwo, Buffer.from(getAvatarTwo, 'utf-8'));
+  const one = event.senderID;
+  const two = mention[0];
 
-let circleOne = await jimp.read(await circle(avatarOne)); let circleTwo = await jimp.read(await circle(avatarTwo));
+  const imgPath = await createImage(one, two);
+  return api.sendMessage({
+    body: `❤️ Forever Love \n\n𝐊𝐈𝐍𝐆 𝐒𝐇𝐎𝐔𝐑𝐎𝐕\n📌 fb.com/www.xsxx.com365`,
+    attachment: fs.createReadStream(imgPath)
+  }, event.threadID, () => fs.unlinkSync(imgPath), event.messageID);
+};
 
-// Avatars placed accurately on background bg.composite(circleOne.resize(240, 240), 162, 228); // Left side bg.composite(circleTwo.resize(240, 240), 860, 220); // Right side
+async function createImage(uid1, uid2) {
+  const basePath = path.join(__dirname, "cache/love");
+  const bgPath = path.join(basePath, "background.png");
 
-let final = await bg.getBufferAsync("image/png");
+  const avatar1Path = path.join(basePath, `avt1_${uid1}.png`);
+  const avatar2Path = path.join(basePath, `avt2_${uid2}.png`);
+  const finalPath = path.join(basePath, `love_${uid1}_${uid2}.png`);
 
-fs.writeFileSync(pathImg, final); fs.unlinkSync(avatarOne); fs.unlinkSync(avatarTwo);
+  const avatar1 = await getAvatar(uid1);
+  const avatar2 = await getAvatar(uid2);
+  fs.writeFileSync(avatar1Path, avatar1);
+  fs.writeFileSync(avatar2Path, avatar2);
 
-return pathImg; }
+  const bg = await jimp.read(bgPath);
+  const av1 = await jimp.read(await makeCircle(avatar1Path));
+  const av2 = await jimp.read(await makeCircle(avatar2Path));
 
-async function circle(image) { const jimp = require("jimp"); image = await jimp.read(image); image.circle(); return await image.getBufferAsync("image/png"); }
+  // ঠিকভাবে বসানো হয়েছে
+  bg.composite(av1.resize(230, 230), 93, 122);
+  bg.composite(av2.resize(232, 232), 513, 124);
 
-module.exports.run = async function ({ event, api }) { const fs = global.nodemodule["fs-extra"]; const { threadID, messageID, senderID } = event; const mention = Object.keys(event.mentions); if (!mention[0]) return api.sendMessage("💌 ভালোবাসার মানুষটি কে ট্যাগ করুন!", threadID, messageID); const one = senderID, two = mention[0]; return makeImage({ one, two }).then(path => api.sendMessage({ body: "💞 𝐋𝐨𝐯𝐞 𝐅𝐨𝐫𝐞𝐯𝐞𝐫 💞\n\n❤️‍🔥 তৈরি করেছেন: 𝐊𝐈𝐍𝐆 𝐒𝐇𝐎𝐔𝐑𝐎𝐕\n🔗 fb.com/www.xsxx.com365", attachment: fs.createReadStream(path) }, threadID, () => fs.unlinkSync(path), messageID) ); };
+  await bg.writeAsync(finalPath);
+
+  fs.unlinkSync(avatar1Path);
+  fs.unlinkSync(avatar2Path);
+
+  return finalPath;
+}
+
+async function getAvatar(uid) {
+  const url = `https://graph.facebook.com/${uid}/picture?width=512&height=512&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`;
+  const res = await axios.get(url, { responseType: "arraybuffer" });
+  return res.data;
+}
+
+async function makeCircle(imgPath) {
+  const image = await jimp.read(imgPath);
+  image.circle();
+  return await image.getBufferAsync("image/png");
+}
