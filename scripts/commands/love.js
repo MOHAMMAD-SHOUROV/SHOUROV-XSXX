@@ -1,126 +1,96 @@
-const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
-
-module.exports = {
-  config: {
-    name: "bot",
-    version: "1.0.0",
-    aliases: ["mim"],
-    permission: 0,
-    credits: "nayan",
-    description: "talk with bot",
-    prefix: 3,
-    category: "talk",
-    usages: "hi",
-    cooldowns: 5,
-  },
-
-  // ✅ handleReply: ইউজার reply করলে response দিবে
-  handleReply: async function ({ api, event }) {
-    try {
-      const apiData = await axios.get('https://raw.githubusercontent.com/MOHAMMAD-NAYAN-07/Nayan/main/api.json');
-      const apiUrl = apiData.data.sim;
-      const kl = await axios.get('https://raw.githubusercontent.com/MOHAMMAD-NAYAN-07/Nayan/main/api.json');
-      const apiUrl2 = kl.data.api2;
-
-      const response = await axios.get(`${apiUrl}/sim?type=ask&ask=${encodeURIComponent(event.body)}`);
-      const result = response.data.data.msg;
-
-      const textStyles = loadTextStyles();
-      const userStyle = textStyles[event.threadID]?.style || 'normal';
-
-      const fontResponse = await axios.get(`${apiUrl2}/bold?text=${encodeURIComponent(result)}&type=${userStyle}`);
-      const text = fontResponse.data.data.bolded;
-
-      api.sendMessage(text, event.threadID, (error, info) => {
-        if (error) {
-          console.error('Error replying to user:', error);
-          return api.sendMessage('An error occurred. Please try again later.', event.threadID, event.messageID);
-        }
-
-        global.client.handleReply.push({
-          type: 'reply',
-          name: this.config.name,
-          messageID: info.messageID,
-          author: event.senderID,
-          head: event.body
-        });
-      }, event.messageID);
-
-    } catch (error) {
-      console.error('Error in handleReply:', error);
-      api.sendMessage('❌ দুঃখিত, কিছু একটা ভুল হয়েছে। পরে আবার চেষ্টা করুন।', event.threadID, event.messageID);
-    }
-  },
-
-  // ✅ start ফাংশন: বট ডাকলে প্রোফাইল ছবি + ক্যাপশন পাঠাবে
-  start: async function ({ api, events, args, Users }) {
-    try {
-      const msg = args.join(" ");
-      const senderID = events.senderID;
-      const threadID = events.threadID;
-      const messageID = events.messageID;
-
-      const name = await Users.getNameUser(senderID);
-      const imgURL = `https://graph.facebook.com/${senderID}/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
-
-      const greetings = [
-        "আহ শুনা আমার তোমার অলিতে গলিতে উম্মাহ😇😘",
-        "কি গো সোনা আমাকে ডাকছ কেনো",
-        "বার বার আমাকে ডাকস কেন😡",
-        "আহ শোনা আমার আমাকে এতো ডাক্তাছো কেনো আসো বুকে আশো🥱",
-        "হুম জান তোমার অইখানে উম্মমাহ😷😘",
-        "আসসালামু আলাইকুম বলেন আপনার জন্য কি করতে পারি",
-        "আমাকে এতো না ডেকে বস সৌরভ'কে একটা গফ দে 🙄",
-        "jang hanga korba",
-        "jang bal falaba🙂"
-      ];
-      const randomCaption = greetings[Math.floor(Math.random() * greetings.length)];
-
-      const finalCaption = `👤 𝐍𝐀𝐌𝐄: ${name}\n\n${randomCaption}\n\n✨ 𝐑𝐄𝐒𝐏𝐎𝐍𝐒𝐄 𝐁𝐘: 𝐊𝐈𝐍𝐆 𝐒𝐇𝐎𝐔𝐑𝐎𝐕 🔗 fb.me/www.xsxx.com365`;
-
-      const cachePath = path.join(__dirname, 'cache');
-      if (!fs.existsSync(cachePath)) fs.mkdirSync(cachePath);
-
-      const imgPath = path.join(cachePath, `${senderID}.jpg`);
-      const img = (await axios.get(imgURL, { responseType: 'arraybuffer' })).data;
-      fs.writeFileSync(imgPath, Buffer.from(img));
-
-      await api.sendMessage({
-        body: finalCaption,
-        attachment: fs.createReadStream(imgPath)
-      }, threadID, () => fs.unlinkSync(imgPath), messageID);
-
-    } catch (error) {
-      console.error("❌ Error in start:", error);
-      api.sendMessage('❌ দুঃখিত, কিছু একটা ভুল হয়েছে। পরে আবার চেষ্টা করুন।', events.threadID, events.messageID);
-    }
-  }
+module.exports.config = {
+ name: "love",
+ version: "7.3.1",
+ hasPermssion: 0,
+ credits: "—͟͟͞͞𝐂𝐘𝐁𝐄𝐑 ☢️_𖣘 -𝐁𝐎𝐓 ⚠️ 𝑻𝑬𝑨𝑴_ ☢️",
+ description: "Get Pair From Mention",
+ commandCategory: "img",
+ usages: "[@mention]",
+ cooldowns: 5,
+ dependencies: {
+ "axios": "",
+ "fs-extra": "",
+ "path": "",
+ "jimp": ""
+ }
 };
 
-// ✅ Text style functions
-function loadTextStyles() {
-  const Path = path.join(__dirname, 'system', 'textStyles.json');
-  try {
-    if (!fs.existsSync(Path)) {
-      fs.writeFileSync(Path, JSON.stringify({}, null, 2));
-    }
-    const data = fs.readFileSync(Path, 'utf8');
-    return JSON.parse(data);
-  } catch (error) {
-    console.error('Error loading text styles:', error);
-    return {};
-  }
+module.exports.onLoad = async() => {
+ const { resolve } = global.nodemodule["path"];
+ const { existsSync, mkdirSync } = global.nodemodule["fs-extra"];
+ const { downloadFile } = global.utils;
+ const dirMaterial = __dirname + '/cache/canvas/';
+ const path = resolve(__dirname, 'cache/canvas', 'shourovlove.png');
+ if (!existsSync(dirMaterial + "canvas")) mkdirSync(dirMaterial, { recursive: true });
+ if (!existsSync(path)) await downloadFile("https://i.imgur.com/PeyPJDz.jpeg", path);
 }
 
-function saveTextStyle(threadID, style) {
-  const styles = loadTextStyles();
-  styles[threadID] = { style };
-  const Path = path.join(__dirname, 'system', 'textStyles.json');
-  try {
-    fs.writeFileSync(Path, JSON.stringify(styles, null, 2));
-  } catch (error) {
-    console.error('Error saving text styles:', error);
-  }
+async function makeImage({ one, two }) {
+ const fs = global.nodemodule["fs-extra"];
+ const path = global.nodemodule["path"];
+ const axios = global.nodemodule["axios"];
+ const jimp = global.nodemodule["jimp"];
+ const __root = path.resolve(__dirname, "cache", "canvas");
+
+ let batgiam_img = await jimp.read(__root + "/shourovlove.png"); 
+ let pathImg = __root + `/batman${one}_${two}.png`; 
+ let avatarOne = __root + `/avt_${one}.png`; 
+ let avatarTwo = __root + `/avt_${two}.png`; 
+ 
+ let getAvatarOne = (await axios.get(`https://graph.facebook.com/${one}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`, { responseType: 'arraybuffer' })).data; 
+ fs.writeFileSync(avatarOne, Buffer.from(getAvatarOne, 'utf-8')); 
+ 
+ let getAvatarTwo = (await axios.get(`https://graph.facebook.com/${two}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`, { responseType: 'arraybuffer' })).data; 
+ fs.writeFileSync(avatarTwo, Buffer.from(getAvatarTwo, 'utf-8')); 
+ 
+ let circleOne = await jimp.read(await circle(avatarOne)); 
+ let circleTwo = await jimp.read(await circle(avatarTwo)); 
+ batgiam_img.composite(circleOne.resize(200, 200), 70, 110).composite(circleTwo.resize(200, 200), 465, 110); 
+ 
+ let raw = await batgiam_img.getBufferAsync("image/png"); 
+ 
+ fs.writeFileSync(pathImg, raw); 
+ fs.unlinkSync(avatarOne); 
+ fs.unlinkSync(avatarTwo); 
+ 
+ return pathImg;
+}
+
+async function circle(image) {
+ const jimp = require("jimp");
+ image = await jimp.read(image);
+ image.circle();
+ return await image.getBufferAsync("image/png");
+}
+
+module.exports.run = async function ({ event, api, args }) {
+ const fs = global.nodemodule["fs-extra"];
+ const { threadID, messageID, senderID } = event;
+ const mention = Object.keys(event.mentions);
+ 
+ 
+ const captions = [
+ "💖 ⎯͢⎯⃝🩷😽 তুমি আমার চোখেতে সরলতার উপমা ⎯͢⎯⃝🩷🐰🍒𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯",
+ "💖 🥺❤️ প্রিয়.....! 😊\nকখনো কাঁদাও, কখনো হাসাও,\nআবার কখনো এমন ভালোবাসা দাও,\nযেন পৃথিবীর সব সুখ তোমার মাঝে খুঁজে পাই...! 💔❤️𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯",
+ " বিচ্ছেদের পরেও যোগাযোগ রাখার নামই হচ্ছে মায়া ____💖 💗🌺𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯",
+ " 𝐏𝐞𝐨𝐩𝐥𝐞'𝐬 𝐦𝐞𝐦𝐨𝐫𝐢𝐞𝐬 𝐚𝐫𝐞 𝐦𝐨𝐫𝐞 𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥 𝐭𝐡𝐚𝐧 𝐩𝐞𝐨𝐩𝐥𝐞'𝐬...\nমানুষে'র থেকে মানুষে'র স্মৃতি বেশি আপন হয়,\nমানুষ ছেড়ে যায়, কিন্তু স্মৃতি নয়-!!𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯",
+ " ইচ্ছে 'গুলো শব্দহীন...!!\nভাবনা সে-তো প্রতি দিন..!\nকল্পনার রং যদিও ঘন,\nকিন্তু বাস্তবতা ভীষণ কঠিন....!! 🌸💔𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯",
+ " ভালোবাসা মানে কেবল প্রেম নয়,\nবরং এমন একজন — যার হাসিতেই সকাল শুরু হয়, আর কান্নায় রাত ফুরায়!💖 💌🩵𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯",
+ " যে সম্পর্ক চোখে দেখা যায় না,\nতবুও মন জুড়ে থাকে — সেটাই সবচেয়ে সত্য ভালোবাসা!💖 🌙🥺𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯",
+ " তুমি হয়তো দূরে আছো,\nকিন্তু আমার প্রতিটা অনুভূতির ঠিকানা এখনো তুমি!💖 💞🕊️𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯",
+ " চোখের ভাষা বোঝে যে, সে-ই প্রিয় মানুষ।\nকারণ ভালোবাসা কখনো শব্দে নয়, দৃষ্টিতে প্রকাশ পায়!💖 🌸✨",
+ " তুমি কেবল মানুষ না,\nতুমি একটা মিষ্টি অভ্যাস — যাকে ছাড়াও বাঁচা যায় না!💖 🐻🌈𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯"
+ ];
+ 
+ 
+ const randomCaption = captions[Math.floor(Math.random() * captions.length)];
+
+ if (!mention[0]) return api.sendMessage("Please mention 1 person.", threadID, messageID);
+ else {
+ const one = senderID, two = mention[0];
+ return makeImage({ one, two }).then(path => api.sendMessage({ 
+ body: randomCaption, 
+ attachment: fs.createReadStream(path) 
+ }, threadID, () => fs.unlinkSync(path), messageID));
+ }
 }
