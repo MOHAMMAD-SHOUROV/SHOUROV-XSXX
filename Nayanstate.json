@@ -1,40 +1,4 @@
-[
-    {
-        "key": "dbln",
-        "value": "%7B%2261579147813748%22%3A%22gPYztYue%22%7D",
-        "domain": "facebook.com",
-        "path": "/login/device-based/",
-        "hostOnly": false,
-        "creation": "2025-08-21T03:00:31.814Z",
-        "lastAccessed": "2025-08-21T03:00:31.814Z"
-    },
-    {
-        "key": "datr",
-        "value": "aQSmaLEiOQ60ZX1QLZzhc0i7",
-        "domain": "facebook.com",
-        "path": "/",
-        "hostOnly": false,
-        "creation": "2025-08-21T03:00:31.814Z",
-        "lastAccessed": "2025-08-21T03:00:31.814Z"
-    },
-    {
-        "key": "sb",
-        "value": "aQSmaIw3Lza6B2DMbAkbIPOZ",
-        "domain": "facebook.com",
-        "path": "/",
-        "hostOnly": false,
-        "creation": "2025-08-21T03:00:31.814Z",
-        "lastAccessed": "2025-08-21T03:00:31.814Z"
-    },
-    {
-        "key": "locale",
-        "value": "en_US",
-        "domain": "facebook.com",
-        "path": "/",
-        "hostOnly": false,
-        "creation": "2025-08-21T03:00:31.814Z",
-        "lastAccessed": "2025-08-21T03:00:31.814Z"
-    },
+[]    },
     {
         "key": "vpd",
         "value": "v1%3B799x424x1.7000000476837158",
