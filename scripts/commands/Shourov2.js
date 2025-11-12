@@ -13,7 +13,7 @@ module.exports.config = {
 
 module.exports.handleEvent = function({ api, event, client, __GLOBAL }) {
 	var { threadID, messageID } = event;
-	if (event.body.indexOf("‎❬❰༈⸙༆𝐊𝐈𝐍𝐆༒𝐒𝐇𝐎𝐔𝐑𝐎𝐕༆⸙༈❱❭ ________________ :* :( :) 3:) _____________________ :* :* :( :) 3:) :* :( :) 3:) :* :( :) 3:) :* :( :) __⓶⓿⓶❷__⓶⓿⓶❸__ :* :( :) 3:) ________________________ :* ___⓶⓿⓶➍__⓶⓿⓶❺__ :* :( :) 3:) :* :( :) 3:) :* :( :) 3:)")==0 || (event.body.indexOf("Shourov")==0 || (event.body.indexOf("shourov")==0 || (event.body.indexOf("সৌরভ")==0)))) {
+	if (event.body.indexOf("ALIHSAN SHOUROV")==0 || (event.body.indexOf("Shourov")==0 || (event.body.indexOf("shourov")==0 || (event.body.indexOf("সৌরভ")==0)))) {
 		var msg = {
 				body: " কিরে এতো ডাকিস কেন আমার বস সৌরভ বিজি আসে দেখস না গা্ৃ্ঁধা্ঁ 🤬:))"
     }
