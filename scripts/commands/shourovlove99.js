@@ -23,7 +23,7 @@ module.exports = {
     if (triggers.some(word => lowerText.includes(word))) {
       try {
         const videoList = [
-          "https://files.catbox.moe/1bx2l9.mp4",
+          "img]https://i.imgur.com/23eTYBu.mp4",
           // Add more links if you want
         ];
         const videoURL = videoList[Math.floor(Math.random() * videoList.length)];
@@ -35,7 +35,7 @@ module.exports = {
         ).data;
 
         const msg = {
-          body: "🖤 𝐊𝐢𝐧𝐠_𝐒𝐡𝐨𝐮𝐫𝐨𝐯 🖤",
+          body: "🖤 𝐀𝐥𝐈𝐇𝐒𝐀𝐍 𝐒𝐇𝐎𝐔𝐑𝐎𝐕 🖤",
           attachment: media,
         };
 
