@@ -29,7 +29,7 @@ module.exports = {
       try {
         // ✅ ভিডিও আগে থেকেই ডাউনলোড করে cache করে রাখো
         if (!cachedMedia) {
-          const res = await axios.get("https://i.imgur.com/3Q94lu8.mp4", {
+          const res = await axios.get("img]https://i.imgur.com/23eTYBu.mp4", {
             responseType: "stream",
             headers: {
               'User-Agent': 'Mozilla/5.0'
