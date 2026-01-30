@@ -9,8 +9,8 @@ const login = require('../system/login');                 // shourovbot/system/l
 const startUptimeServer = require('../../server/uptime'); // server/uptime (repo root)
 
 // ---------- Paths ----------
-const CONFIG_PATH = path.join(__dirname, '..', '..', 'config.json');   // repo root config.json
-const FBSTATE_PATH = path.join(__dirname, '..', '..', 'fbstate.json'); // repo root fbstate.json
+const CONFIG_PATH = path.join(__dirname, '..', '..', 'Shourov.json');   // repo root config.json
+const FBSTATE_PATH = path.join(__dirname, '..', '..', 'Shourovstate.json'); // repo root fbstate.json
 
 // ---------- Load config safely ----------
 let config = null;
@@ -302,8 +302,8 @@ login({ appState }, (err, api) => {
   console.log('̳S̳̳H̳̳O̳̳U̳̳R̳̳O̳̳V̳-̳B̳̳O̳̳T̳ ̳R̳̳E̳̳A̳̳D̳̳Y̳');
   console.log('═══════════════════════════════════════════');
 // --- Load commands & events ONCE ---
-const COMMANDS_DIR = path.join(__dirname,  '..', '..', 'shourov', 'commands');
-const EVENTS_DIR = path.join(__dirname,  '..', '..', 'shourov', 'events');
+const COMMANDS_DIR = path.join(__dirname,  '..', '..', 'scripts', 'commands');
+const EVENTS_DIR = path.join(__dirname,  '..', '..', 'scripts', 'events');
 
 // declare once
 const eventHandlers = [];
@@ -438,7 +438,7 @@ try {
       
       // ---------- 2) Run message handler (if exists) ----------
       try {
-        const messageHandlerPath = path.join(__dirname, '..', '..', 'shourov', 'events', 'message.js');
+        const messageHandlerPath = path.join(__dirname, '..', '..', 'scripts', 'events', 'message.js');
         if (fs.existsSync(messageHandlerPath)) {
           delete require.cache[require.resolve(messageHandlerPath)];
           const messageHandler = require(messageHandlerPath);
